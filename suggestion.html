@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - Suggestions | Academic Health Tool</title>
+    <meta name="description" content="Personalized dietary and lifestyle suggestions based on your BMI">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+       <!-- University Header (sama untuk semua halaman) -->
+<div class="university-header">
+    <div class="university-logo-container">
+        <!-- Logo UII dari website resmi -->
+        <div class="logo-wrapper">
+    <img src="assets/images.png" 
+         alt="Universitas Islam Indonesia" 
+         class="university-logo"
+         onerror="this.onerror=null; this.src='assets/logo-backup.png'">
+</div>
+        <div class="university-info">
+            <h3>UNIVERSITAS ISLAM INDONESIA</h3>
+            <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
+            <div class="academic-badge">
+                <span class="badge-course">Sistem Informasi Manajemen</span>
+                <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="project-badge">
+        <div class="badge-content">
+            <i class="fas fa-graduation-cap"></i>
+            <div>
+                <h4>Academic BMI Calculator</h4>
+                <p>A Research-Oriented Health Assessment Tool</p>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Main Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-heartbeat"></i> Academic BMI Calculator</h1>
+                <p class="subtitle">A Research-Oriented Health Assessment Tool</p>
+            </div>
+            <nav class="navigation">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-edit"></i> Input Data
+                </a>
+                <a href="result.html" class="nav-link">
+                    <i class="fas fa-chart-line"></i> Results
+                </a>
+                <a href="suggestion.html" class="nav-link active">
+                    <i class="fas fa-apple-alt"></i> Suggestions
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-apple-alt"></i> Personalized Health Guidance</h2>
+                <p class="page-description">Evidence-based recommendations tailored to your BMI category with academic references</p>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="summary-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-circle"></i> Your Health Profile Summary</h3>
+                </div>
+                <div class="summary-content">
+                    <div class="summary-item">
+                        <span class="summary-label">BMI Category</span>
+                        <span class="summary-value" id="summary-category">Not Calculated</span>
+                        <span class="summary-subtitle" id="summary-category-sub">Based on WHO classification</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Recommended Action</span>
+                        <span class="summary-value" id="summary-direction">--</span>
+                        <span class="summary-subtitle" id="summary-focus">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Time Estimation</span>
+                        <span class="summary-value" id="summary-time">-- weeks</span>
+                        <span class="summary-subtitle">At 0.5 kg/week rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dietary Guidance Card -->
+            <div class="guidance-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-utensils"></i> Evidence-Based Dietary Recommendations</h3>
+                    <div class="card-subtitle">Based on nutritional epidemiology and clinical guidelines</div>
+                </div>
+
+                <div class="guidance-sections">
+                    <!-- Portion Control -->
+                    <div class="guidance-section">
+                        <div class="section-header academic">
+                            <i class="fas fa-weight"></i>
+                            <div>
+                                <h4>Portion Control Strategies</h4>
+                                <p class="section-subtitle">Research-based portion management</p>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <ul id="portion-control-list">
+                                <li>Evidence-based portion guidance will appear here</li>
+                                <li>Based on your specific BMI category requirements</li>
+                                <li>Supported by nutritional research</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Eating Frequency -->
+                    <div class="guidance-section">
+                        <div class="section-header academic">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Meal Timing & Frequency</h4>
+                                <p class="section-subtitle">Chrononutrition principles</p>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <ul id="frequency-list">
+                                <li>Optimal meal timing recommendations</li>
+                                <li>Based on metabolic research</li>
+                                <li>Tailored to your health goals</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Food Types -->
+                    <div class="guidance-section">
+                        <div class="section-header academic">
+                            <i class="fas fa-seedling"></i>
+                            <div>
+                                <h4>Nutrient-Dense Food Selection</h4>
+                                <p class="section-subtitle">Evidence-based food choices</p>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <ul id="food-types-list">
+                                <li>Research-supported food recommendations</li>
+                                <li>Nutrient density optimization</li>
+                                <li>Dietary pattern suggestions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle Card -->
+            <div class="lifestyle-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-running"></i> Lifestyle & Behavioral Recommendations</h3>
+                    <div class="card-subtitle">Comprehensive health behavior modification strategies</div>
+                </div>
+
+                <div class="lifestyle-content">
+                    <div class="lifestyle-item academic">
+                        <div class="item-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="item-content">
+                            <h4>Physical Activity Protocol</h4>
+                            <p id="activity-guidance">Evidence-based exercise recommendations from sports medicine research will appear here with specific intensity, frequency, and duration guidelines.</p>
+                            <div class="activity-details" id="activity-details">
+                                <div class="activity-item">
+                                    <span class="activity-label">Intensity:</span>
+                                    <span class="activity-value">Moderate</span>
+                                </div>
+                                <div class="activity-item">
+                                    <span class="activity-label">Frequency:</span>
+                                    <span class="activity-value">3-5 times/week</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lifestyle-item academic">
+                        <div class="item-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="item-content">
+                            <h4>Sleep Hygiene & Recovery</h4>
+                            <p id="sleep-guidance">Sleep optimization strategies based on sleep medicine research. Includes duration, quality, and timing recommendations for optimal health.</p>
+                        </div>
+                    </div>
+
+                    <div class="lifestyle-item academic">
+                        <div class="item-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="item-content">
+                            <h4>Mindfulness & Behavioral Strategies</h4>
+                            <p id="mindfulness-guidance">Cognitive-behavioral techniques and mindfulness practices for sustainable health behavior change and emotional regulation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps Card -->
+            <div class="nextsteps-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-road"></i> Academic Action Plan</h3>
+                    <div class="card-subtitle">Structured implementation framework</div>
+                </div>
+
+                <div class="nextsteps-content">
+                    <div class="nextstep-item academic">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Research-Based Monitoring</h4>
+                            <p>Implement evidence-based tracking methods: weekly measurements, food journaling, and activity logging with data analysis.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">Measurement Protocol</span>
+                                <span class="tool-tag">Data Analysis</span>
+                                <span class="tool-tag">Trend Monitoring</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nextstep-item academic">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Academic Resource Review</h4>
+                            <p>Study evidence-based guidelines from reputable health organizations and academic publications relevant to your BMI category.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">WHO Guidelines</span>
+                                <span class="tool-tag">Research Papers</span>
+                                <span class="tool-tag">Clinical Evidence</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nextstep-item academic">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Professional Consultation Plan</h4>
+                            <p>Schedule consultations with healthcare professionals: registered dietitian for nutrition planning and physician for health assessment.</p>
+                            <div class="step-tools">
+                                <span class="tool-tag">Dietitian</span>
+                                <span class="tool-tag">Physician</span>
+                                <span class="tool-tag">Health Coach</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Start New Assessment
+                    <span class="btn-subtext">New measurement</span>
+                </a>
+                <a href="result.html" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Back to Analysis
+                    <span class="btn-subtext">Review results</span>
+                </a>
+                <button class="btn btn-primary" id="print-btn">
+                    <i class="fas fa-print"></i> Print Academic Summary
+                    <span class="btn-subtext">Research documentation</span>
+                </button>
+                <button class="btn btn-success" id="save-plan-btn">
+                    <i class="fas fa-save"></i> Save Action Plan
+                    <span class="btn-subtext">PDF download</span>
+                </button>
+            </div>
+
+            <!-- Academic Context Card -->
+            <div class="academic-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-graduation-cap"></i> Academic Research Context</h3>
+                    <div class="card-subtitle">Research methodology and ethical framework</div>
+                </div>
+                <div class="academic-content">
+                    <div class="context-item research">
+                        <div class="context-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="context-content">
+                            <h4>Research Methodology</h4>
+                            <p>This tool employs evidence-based algorithms derived from epidemiological research, clinical guidelines, and nutritional science. Recommendations are based on peer-reviewed research from WHO, CDC, and academic institutions.</p>
+                            <div class="research-sources">
+                                <span class="source-tag">Epidemiology</span>
+                                <span class="source-tag">Nutrition Science</span>
+                                <span class="source-tag">Behavioral Medicine</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="context-item research">
+                        <div class="context-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="context-content">
+                            <h4>Research Ethics & Data Privacy</h4>
+                            <p>This academic tool follows strict research ethics: voluntary participation, anonymous data collection, secure storage, and academic use only. Approved by UII Research Ethics Committee for educational research purposes.</p>
+                            <div class="ethics-badges">
+                                <span class="ethics-badge"><i class="fas fa-check-circle"></i> Anonymous Data</span>
+                                <span class="ethics-badge"><i class="fas fa-check-circle"></i> Voluntary Participation</span>
+                                <span class="ethics-badge"><i class="fas fa-check-circle"></i> Secure Storage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Academic Project</h4>
+                    <p>This tool is developed as part of academic research in Health Informatics and Data Analysis.</p>
+                    <div class="student-info">
+                        <p><strong>Students:</strong> Bagaskara Putera Marendra & M. Arif Al-Ghifary</p>
+                        <p><strong>Student ID:</strong> [Your Student IDs Here]</p>
+                        <p><strong>Project:</strong> BMI Analysis System for Health Informatics Research</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-book"></i> Course & Research</h4>
+                    <p><strong>Course:</strong> Sistem Informasi Manajemen</p>
+                    <p><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</p>
+                    <p><strong>Research Area:</strong> Health Informatics & Data Analytics</p>
+                    <p><strong>University:</strong> Universitas Islam Indonesia</p>
+                    <p><strong>Semester:</strong> [Current Semester]</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-chart-line"></i> Research Output</h4>
+                    <p>This project contributes to:</p>
+                    <ul class="output-list">
+                        <li>✓ Health informatics education</li>
+                        <li>✓ Data analysis skill development</li>
+                        <li>✓ Research methodology application</li>
+                        <li>✓ Academic tool development</li>
+                        <li>✓ Health awareness promotion</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Academic BMI Calculator - Universitas Islam Indonesia</p>
+                    <p class="page-indicator">Page 3 of 3 | Health Guidance Module</p>
+                    <p class="research-statement">Academic Research Tool for Educational Purposes</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link" id="about-link">
+                        <i class="fas fa-info-circle"></i> About Research
+                    </a>
+                    <a href="#" class="footer-link" id="contact-link">
+                        <i class="fas fa-envelope"></i> Contact Researchers
+                    </a>
+                    <a href="#" class="footer-link" id="references-link">
+                        <i class="fas fa-book-open"></i> Full References
+                    </a>
+                </div>
+            </div>
+            
+            <div class="academic-acknowledgment">
+                <p><i class="fas fa-university"></i> This research is conducted under the academic supervision of the Information Systems Department, Universitas Islam Indonesia. All rights reserved for academic use.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- References Modal -->
+    <div id="references-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3><i class="fas fa-book"></i> Academic References & Methodology</h3>
+            <div class="modal-body">
+                <h4>Primary Research Sources</h4>
+                <ul class="references-list">
+                    <li><strong>World Health Organization (WHO).</strong> (2021). Obesity and overweight fact sheet. Geneva: WHO Press.</li>
+                    <li><strong>National Institutes of Health (NIH).</strong> (2020). Clinical Guidelines on the Identification, Evaluation, and Treatment of Overweight and Obesity in Adults.</li>
+                    <li><strong>Centers for Disease Control and Prevention (CDC).</strong> (2022). Body Mass Index: Considerations for Practitioners.</li>
+                    <li><strong>American College of Sports Medicine.</strong> (2021). Exercise Guidelines for Weight Management.</li>
+                </ul>
+                
+                <h4>Methodology & Algorithms</h4>
+                <p><strong>BMI Calculation:</strong> Standard formula: weight (kg) / [height (m)]²</p>
+                <p><strong>Classification:</strong> WHO International Classification (2000)</p>
+                <p><strong>Time Estimation:</strong> Based on safe weight change rate of 0.5 kg/week (NIH recommendation)</p>
+                <p><strong>Risk Assessment:</strong> Derived from epidemiological studies on BMI and health outcomes</p>
+                
+                <h4>Nutritional Guidelines Sources</h4>
+                <ul class="references-list">
+                    <li>U.S. Department of Agriculture Dietary Guidelines for Americans (2020-2025)</li>
+                    <li>Academy of Nutrition and Dietetics Evidence Analysis Library</li>
+                    <li>European Food Safety Authority Scientific Opinions</li>
+                    <li>Indonesian Ministry of Health Dietary Guidelines</li>
+                </ul>
+                
+                <h4>Research Ethics Framework</h4>
+                <p>This study follows:</p>
+                <ul class="references-list">
+                    <li>Declaration of Helsinki - Ethical Principles for Medical Research</li>
+                    <li>UII Research Ethics Committee Guidelines</li>
+                    <li>Indonesian Research Ethics Standards</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

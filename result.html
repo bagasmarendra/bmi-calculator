@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - Results | Academic Health Tool</title>
+    <meta name="description" content="Your BMI calculation results and interpretation">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+       <!-- University Header (sama untuk semua halaman) -->
+<div class="university-header">
+    <div class="university-logo-container">
+        <!-- Logo UII dari website resmi -->
+        <!-- Menjadi ini: -->
+<div class="logo-wrapper">
+    <img src="assets/images.png" 
+         alt="Universitas Islam Indonesia" 
+         class="university-logo"
+         onerror="this.onerror=null; this.src='assets/logo-backup.png'">
+</div>
+        <div class="university-info">
+            <h3>UNIVERSITAS ISLAM INDONESIA</h3>
+            <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
+            <div class="academic-badge">
+                <span class="badge-course">Sistem Informasi Manajemen</span>
+                <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="project-badge">
+        <div class="badge-content">
+            <i class="fas fa-graduation-cap"></i>
+            <div>
+                <h4>Academic BMI Calculator</h4>
+                <p>A Research-Oriented Health Assessment Tool</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Main Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-heartbeat"></i> Academic BMI Calculator</h1>
+                <p class="subtitle">A Research-Oriented Health Assessment Tool</p>
+            </div>
+            <nav class="navigation">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-edit"></i> Input Data
+                </a>
+                <a href="result.html" class="nav-link active">
+                    <i class="fas fa-chart-line"></i> Results
+                </a>
+                <a href="suggestion.html" class="nav-link">
+                    <i class="fas fa-apple-alt"></i> Suggestions
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-chart-line"></i> BMI Analysis Results</h2>
+                <p class="page-description">Detailed statistical analysis of your Body Mass Index with academic interpretation</p>
+            </div>
+
+            <!-- BMI Result Card -->
+            <div class="result-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-calculator"></i> BMI Calculation Result</h3>
+                    <div class="calculation-time" id="calculation-time">
+                        <i class="fas fa-clock"></i> Calculated: <span id="time-display">--:--</span>
+                    </div>
+                </div>
+
+                <div class="bmi-result-container">
+                    <!-- BMI Value Display -->
+                    <div class="bmi-value-display">
+                        <div class="bmi-number" id="bmi-value">--.--</div>
+                        <div class="bmi-unit">kg/m²</div>
+                    </div>
+
+                    <!-- BMI Category -->
+                    <div class="bmi-category-display">
+                        <div class="category-label">WHO Classification</div>
+                        <div class="category-value" id="bmi-category">Not Calculated</div>
+                        <div class="category-subtitle" id="category-subtitle">Based on WHO standards</div>
+                    </div>
+                </div>
+
+                <!-- BMI Scale Visualization -->
+                <div class="bmi-scale-visual">
+                    <div class="scale-visualization">
+                        <div class="scale-bar">
+                            <div class="scale-segment underweight">
+                                <span class="segment-label">&lt;18.5</span>
+                            </div>
+                            <div class="scale-segment normal">
+                                <span class="segment-label">18.5-24.9</span>
+                            </div>
+                            <div class="scale-segment overweight">
+                                <span class="segment-label">25-29.9</span>
+                            </div>
+                            <div class="scale-segment obese">
+                                <span class="segment-label">≥30</span>
+                            </div>
+                        </div>
+                        <div class="scale-marker" id="scale-marker">
+                            <div class="marker-line"></div>
+                            <div class="marker-dot"></div>
+                        </div>
+                    </div>
+                    <div class="scale-labels">
+                        <span class="scale-label">Underweight</span>
+                        <span class="scale-label">Normal</span>
+                        <span class="scale-label">Overweight</span>
+                        <span class="scale-label">Obese</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interpretation Card -->
+            <div class="interpretation-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-search"></i> Academic Interpretation</h3>
+                </div>
+
+                <div class="interpretation-content">
+                    <div class="interpretation-item">
+                        <div class="item-icon academic-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="item-content">
+                            <h4>Statistical Comparison</h4>
+                            <p id="comparison-text">Your BMI compared to the WHO healthy range (18.5–24.9 kg/m²) will appear here with statistical deviation analysis.</p>
+                            <div class="statistical-details" id="statistical-details">
+                                <div class="stat-item">
+                                    <span class="stat-label">Deviation from mean:</span>
+                                    <span class="stat-value" id="deviation-value">--.-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Percentile rank:</span>
+                                    <span class="stat-value" id="percentile-value">--%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="interpretation-item">
+                        <div class="item-icon academic-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="item-content">
+                            <h4>Ideal Weight Range</h4>
+                            <p>Based on your height, the optimal weight range for maintaining a healthy BMI is:</p>
+                            <div class="ideal-weight-display">
+                                <div class="ideal-weight-item">
+                                    <span class="weight-label">Minimum healthy weight</span>
+                                    <span class="weight-value" id="ideal-weight-min">--.- kg</span>
+                                </div>
+                                <div class="ideal-weight-item">
+                                    <span class="weight-label">Maximum healthy weight</span>
+                                    <span class="weight-value" id="ideal-weight-max">--.- kg</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="interpretation-item">
+                        <div class="item-icon academic-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="item-content">
+                            <h4>Health Risk Assessment</h4>
+                            <p id="health-assessment">Health implications based on epidemiological research will be described here with risk level indicators.</p>
+                            <div class="risk-indicator" id="risk-indicator">
+                                <div class="risk-level low">
+                                    <div class="risk-dot"></div>
+                                    <span class="risk-label">Low risk</span>
+                                </div>
+                                <div class="risk-level moderate">
+                                    <div class="risk-dot"></div>
+                                    <span class="risk-label">Moderate risk</span>
+                                </div>
+                                <div class="risk-level high">
+                                    <div class="risk-dot"></div>
+                                    <span class="risk-label">High risk</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Estimation Card -->
+            <div class="timeline-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-clock"></i> Time Estimation Analysis</h3>
+                    <div class="card-subtitle">Based on safe weight change rate of 0.5 kg/week (WHO recommendation)</div>
+                </div>
+
+                <div class="timeline-content">
+                    <div class="timeline-visual">
+                        <div class="timeline-bar">
+                            <div class="timeline-progress" id="timeline-progress"></div>
+                            <div class="current-marker" id="current-marker">
+                                <div class="marker-label">Current</div>
+                            </div>
+                            <div class="goal-marker" id="goal-marker">
+                                <div class="marker-label">Goal</div>
+                            </div>
+                        </div>
+                        <div class="timeline-scale">
+                            <span class="timeline-start">Week 0</span>
+                            <span class="timeline-end" id="timeline-end-weeks">Week --</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-details">
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <div class="detail-content">
+                                <span class="detail-label">Recommended Change</span>
+                                <span class="detail-value" id="weight-change">--.- kg</span>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <span class="detail-label">Estimated Time</span>
+                                <span class="detail-value" id="estimated-time">-- weeks</span>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="detail-content">
+                                <span class="detail-label">Safe Rate</span>
+                                <span class="detail-value">0.5 kg/week</span>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="detail-content">
+                                <span class="detail-label">Target BMI</span>
+                                <span class="detail-value" id="target-bmi">22.5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-note">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div class="note-content">
+                            <h4>Academic Note:</h4>
+                            <p>This is an educational estimation based on epidemiological research. Individual results vary based on metabolism, activity level, genetic factors, and adherence to healthy practices. Consult healthcare professionals for personalized advice.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i> Recalculate
+                    <span class="btn-subtext">New measurement</span>
+                </a>
+                <a href="suggestion.html" class="btn btn-primary" id="next-btn">
+                    <i class="fas fa-arrow-right"></i> View Detailed Suggestions
+                    <span class="btn-subtext">Personalized academic guidance</span>
+                </a>
+            </div>
+
+            <!-- Data Submission Status -->
+            <div class="submission-status card" id="submission-status">
+                <div class="status-header">
+                    <i class="fas fa-database"></i>
+                    <h4>Research Data Contribution Status</h4>
+                </div>
+                <div class="status-content">
+                    <p id="submission-message">Your anonymous BMI data is being prepared for research contribution...</p>
+                    <div class="status-indicator">
+                        <div class="status-progress">
+                            <div class="progress-bar" id="progress-bar"></div>
+                        </div>
+                        <div class="status-details">
+                            <div class="status-dot" id="status-dot"></div>
+                            <span class="status-text" id="status-text">Processing data...</span>
+                        </div>
+                    </div>
+                    <div class="status-actions">
+                        <button class="btn btn-outline btn-small" id="view-data-btn">
+                            <i class="fas fa-eye"></i> View Submitted Data
+                        </button>
+                        <button class="btn btn-outline btn-small" id="export-btn">
+                            <i class="fas fa-download"></i> Export Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Academic Project</h4>
+                    <p>This tool is developed as part of academic research in Health Informatics and Data Analysis.</p>
+                    <div class="student-info">
+                        <p><strong>Students:</strong> Bagaskara Putera Marendra & M. Arif Al-Ghifary</p>
+                        <p><strong>Student ID:</strong> [Your Student IDs Here]</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-book"></i> Course Information</h4>
+                    <p><strong>Course:</strong> Sistem Informasi Manajemen</p>
+                    <p><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</p>
+                    <p><strong>Department:</strong> Information Systems</p>
+                    <p><strong>University:</strong> Universitas Islam Indonesia</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-chart-bar"></i> Statistical Analysis</h4>
+                    <p>This page provides:</p>
+                    <ul class="analysis-list">
+                        <li>✓ BMI calculation & classification</li>
+                        <li>✓ Statistical comparison analysis</li>
+                        <li>✓ Health risk assessment</li>
+                        <li>✓ Time estimation modeling</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Academic BMI Calculator - Universitas Islam Indonesia</p>
+                    <p class="page-indicator">Page 2 of 3 | Results Analysis Module</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link" id="disclaimer-link">
+                        <i class="fas fa-exclamation-triangle"></i> Disclaimer
+                    </a>
+                    <a href="#" class="footer-link" id="references-link">
+                        <i class="fas fa-book-open"></i> References
+                    </a>
+                    <a href="#" class="footer-link" id="methodology-link">
+                        <i class="fas fa-flask"></i> Methodology
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Disclaimer Modal -->
+    <div id="disclaimer-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3><i class="fas fa-exclamation-triangle"></i> Academic & Health Disclaimer</h3>
+            <div class="modal-body">
+                <h4>Research Tool Purpose</h4>
+                <p>This is an educational tool designed for academic research in health informatics and data analysis. It is not a medical diagnostic tool.</p>
+                
+                <h4>BMI Limitations</h4>
+                <p>Body Mass Index is a population-level screening tool that does not account for individual variations in muscle mass, bone density, body composition, age, sex, or ethnic differences.</p>
+                
+                <h4>Not Medical Advice</h4>
+                <p>This tool provides educational information based on epidemiological research and is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+                
+                <h4>Accuracy Statement</h4>
+                <p>Calculations are based on standard WHO formulas and provide general guidance for educational purposes only.</p>
+                
+                <h4>Individual Variation</h4>
+                <p>Results should be interpreted in the context of overall health, lifestyle factors, and individual circumstances. Always consult healthcare professionals for personalized advice.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

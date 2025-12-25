@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - Input | Academic Health Tool</title>
+    <meta name="description" content="Enter your measurements to calculate your Body Mass Index (BMI)">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- University Header -->
+        <div class="university-header">
+            <div class="university-logo-container">
+                <!-- Logo UII dari website resmi -->
+                <!-- Menjadi ini: -->
+<div class="logo-wrapper">
+    <img src="assets/images.png" 
+         alt="Universitas Islam Indonesia" 
+         class="university-logo"
+         onerror="this.onerror=null; this.src='assets/logo-backup.png'">
+</div>
+                <div class="university-info">
+                    <h3>UNIVERSITAS ISLAM INDONESIA</h3>
+                    <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
+                    <div class="academic-badge">
+                        <span class="badge-course">Sistem Informasi Manajemen</span>
+                        <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-badge">
+                <div class="badge-content">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <h4>Academic BMI Calculator</h4>
+                        <p>A Research-Oriented Health Assessment Tool</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-heartbeat"></i> Academic BMI Calculator</h1>
+                <p class="subtitle">A Research-Oriented Health Assessment Tool</p>
+            </div>
+            <nav class="navigation">
+                <a href="index.html" class="nav-link active">
+                    <i class="fas fa-edit"></i> Input Data
+                </a>
+                <a href="#" class="nav-link disabled">
+                    <i class="fas fa-chart-line"></i> Results
+                </a>
+                <a href="#" class="nav-link disabled">
+                    <i class="fas fa-apple-alt"></i> Suggestions
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Content (sisanya tetap sama) -->
+        <!-- ... -->
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-ruler-combined"></i> Enter Your Measurements</h2>
+                <p class="page-description">Please provide your height and weight for accurate BMI calculation. All data is processed anonymously for academic research purposes.</p>
+            </div>
+
+            <div class="input-card card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-circle"></i> Personal Measurements</h3>
+                    <p class="card-subtitle">Accurate measurements ensure reliable results</p>
+                </div>
+
+                <form id="bmi-form" class="bmi-form">
+                    <!-- Height Input -->
+                    <div class="form-group">
+                        <label for="height" class="form-label">
+                            <i class="fas fa-ruler-vertical"></i> Height (centimeters)
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="number" 
+                                id="height" 
+                                name="height"
+                                min="50" 
+                                max="250" 
+                                step="0.1" 
+                                placeholder="Enter height in centimeters"
+                                required
+                            >
+                            <span class="input-unit">cm</span>
+                        </div>
+                        <div class="input-hint">
+                            Typical range: 150–190 cm | Precision: 0.1 cm
+                        </div>
+                    </div>
+
+                    <!-- Weight Input -->
+                    <div class="form-group">
+                        <label for="weight" class="form-label">
+                            <i class="fas fa-weight"></i> Weight (kilograms)
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="number" 
+                                id="weight" 
+                                name="weight"
+                                min="30" 
+                                max="200" 
+                                step="0.1" 
+                                placeholder="Enter weight in kilograms"
+                                required
+                            >
+                            <span class="input-unit">kg</span>
+                        </div>
+                        <div class="input-hint">
+                            Typical range: 40–120 kg | Precision: 0.1 kg
+                        </div>
+                    </div>
+
+                    <!-- Data Consent -->
+                    <div class="consent-section">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="data-consent" checked>
+                            <label for="data-consent" class="consent-label">
+                                <div class="consent-header">
+                                    <i class="fas fa-database"></i> 
+                                    <span>Research Data Contribution</span>
+                                </div>
+                                <span class="consent-description">
+                                    I agree to contribute my anonymous BMI data for academic research purposes. 
+                                    No personal identifiers are collected. Data will be stored securely and used 
+                                    only for statistical analysis in accordance with research ethics.
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-calculator"></i> Calculate BMI
+                            <span class="btn-subtext">Proceed to Detailed Analysis</span>
+                        </button>
+                        <button type="button" id="reset-btn" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Clear Form
+                        </button>
+                    </div>
+
+                    <!-- Validation Messages -->
+                    <div id="error-message" class="error-message"></div>
+                </form>
+            </div>
+
+            <!-- Information Card -->
+            <div class="info-card card">
+                <div class="info-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Academic Tool Overview</h3>
+                </div>
+                <div class="info-content">
+                    <p><strong>Research Purpose:</strong> This tool is designed for educational and academic research in health informatics and data analysis.</p>
+                    <p><strong>Methodology:</strong> Body Mass Index (BMI) is calculated using the standard formula: weight (kg) / [height (m)]²</p>
+                    <p><strong>Analysis Process:</strong></p>
+                    <ol class="process-steps">
+                        <li><strong>Statistical Analysis:</strong> BMI calculation with WHO classification</li>
+                        <li><strong>Data Interpretation:</strong> Detailed health assessment with academic context</li>
+                        <li><strong>Personalized Guidance:</strong> Evidence-based suggestions for health improvement</li>
+                    </ol>
+                    <p><strong>Ethical Compliance:</strong> This tool follows research ethics guidelines for data collection and privacy protection.</p>
+                </div>
+            </div>
+
+            <!-- BMI Scale Preview -->
+            <div class="scale-card card">
+                <div class="scale-header">
+                    <h3><i class="fas fa-chart-bar"></i> WHO BMI Classification</h3>
+                    <p class="card-subtitle">World Health Organization Standards</p>
+                </div>
+                <div class="bmi-scale-preview">
+                    <div class="scale-item underweight">
+                        <span class="scale-label">Underweight</span>
+                        <span class="scale-range">&lt; 18.5 kg/m²</span>
+                        <span class="scale-description">Below healthy range</span>
+                    </div>
+                    <div class="scale-item normal">
+                        <span class="scale-label">Normal</span>
+                        <span class="scale-range">18.5 – 24.9 kg/m²</span>
+                        <span class="scale-description">Healthy weight</span>
+                    </div>
+                    <div class="scale-item overweight">
+                        <span class="scale-label">Overweight</span>
+                        <span class="scale-range">25 – 29.9 kg/m²</span>
+                        <span class="scale-description">Above healthy range</span>
+                    </div>
+                    <div class="scale-item obese">
+                        <span class="scale-label">Obese</span>
+                        <span class="scale-range">≥ 30 kg/m²</span>
+                        <span class="scale-description">Health risk</span>
+                    </div>
+                </div>
+                <p class="scale-note">Source: World Health Organization (WHO) - International Classification</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Academic Project</h4>
+                    <p>This tool is developed as part of academic research in Health Informatics and Data Analysis.</p>
+                    <div class="student-info">
+                        <p><strong>Students:</strong> Bagaskara Putera Marendra & M. Arif Al-Ghifary</p>
+                        <p><strong>Student ID:</strong> [Your Student IDs Here]</p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-book"></i> Course Information</h4>
+                    <p><strong>Course:</strong> Sistem Informasi Manajemen</p>
+                    <p><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</p>
+                    <p><strong>Department:</strong> Information Systems</p>
+                    <p><strong>University:</strong> Universitas Islam Indonesia</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4><i class="fas fa-shield-alt"></i> Research Ethics</h4>
+                    <p>This research complies with academic ethics standards:</p>
+                    <ul class="ethics-list">
+                        <li>✓ Anonymous data collection</li>
+                        <li>✓ Voluntary participation</li>
+                        <li>✓ Secure data storage</li>
+                        <li>✓ Academic use only</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Academic BMI Calculator - Universitas Islam Indonesia</p>
+                    <p class="page-indicator">Page 1 of 3 | Data Input Module</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link" id="privacy-link">
+                        <i class="fas fa-user-shield"></i> Privacy Policy
+                    </a>
+                    <a href="#" class="footer-link" id="methodology-link">
+                        <i class="fas fa-flask"></i> Methodology
+                    </a>
+                    <a href="#" class="footer-link" id="references-link">
+                        <i class="fas fa-book-open"></i> References
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3><i class="fas fa-user-shield"></i> Data Privacy & Research Ethics</h3>
+            <div class="modal-body">
+                <h4>Data Collection Protocol</h4>
+                <p>This research tool collects only height, weight, and calculated BMI values. No personal identifiers (name, email, IP address, location) are collected or stored.</p>
+                
+                <h4>Research Purpose</h4>
+                <p>Data is used solely for aggregate statistical analysis in academic research on population health metrics and BMI distribution patterns.</p>
+                
+                <h4>Consent Framework</h4>
+                <p>Participation is voluntary with explicit opt-in consent. Users can choose not to contribute data while still using the calculation features.</p>
+                
+                <h4>Data Security</h4>
+                <p>All data is encrypted and stored in secure, access-controlled databases. Data retention follows academic research guidelines.</p>
+                
+                <h4>Ethical Compliance</h4>
+                <p>This research follows UII Research Ethics Committee guidelines and international standards for educational research.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
