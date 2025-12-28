@@ -72,6 +72,7 @@ function saveUserData(data) {
     try {
         sessionStorage.setItem('bmiData', JSON.stringify(data));
         sessionStorage.setItem('bmiTimestamp', new Date().toISOString());
+        console.log('💾 Data saved to sessionStorage:', data);
         return true;
     } catch (error) {
         console.error('Error saving data:', error);
@@ -82,7 +83,9 @@ function saveUserData(data) {
 function getUserData() {
     try {
         const data = sessionStorage.getItem('bmiData');
-        return data ? JSON.parse(data) : null;
+        const result = data ? JSON.parse(data) : null;
+        console.log('📖 Data retrieved from sessionStorage:', result);
+        return result;
     } catch (error) {
         console.error('Error reading data:', error);
         return null;
@@ -92,29 +95,55 @@ function getUserData() {
 function clearUserData() {
     sessionStorage.removeItem('bmiData');
     sessionStorage.removeItem('bmiTimestamp');
+    console.log('🧹 User data cleared');
 }
 
 function calculateBMI(height, weight) {
     const heightMeters = height / 100;
-    return Math.round((weight / (heightMeters * heightMeters)) * 10) / 10;
+    const bmi = Math.round((weight / (heightMeters * heightMeters)) * 10) / 10;
+    console.log(`🧮 BMI calculated: ${bmi} (height: ${height}cm, weight: ${weight}kg)`);
+    return bmi;
 }
 
 function getBMICategory(bmi) {
-    if (bmi < 18.5) return 'underweight';
-    if (bmi < 25) return 'normal';
-    if (bmi < 30) return 'overweight';
-    return 'obese';
+    let category;
+    if (bmi < 18.5) {
+        category = 'underweight';
+    } else if (bmi < 25) {
+        category = 'normal';
+    } else if (bmi < 30) {
+        category = 'overweight';
+    } else {
+        category = 'obese';
+    }
+    console.log(`🏷️ BMI Category: ${category} (BMI: ${bmi})`);
+    return category;
+}
+
+function getCategoryName(categoryKey) {
+    const categories = {
+        'underweight': 'Underweight',
+        'normal': 'Normal Weight',
+        'overweight': 'Overweight',
+        'obese': 'Obese'
+    };
+    return categories[categoryKey] || 'Unknown';
 }
 
 function calculateIdealWeightRange(height) {
     const heightMeters = height / 100;
     const minWeight = 18.5 * (heightMeters * heightMeters);
     const maxWeight = 24.9 * (heightMeters * heightMeters);
-    return {
+    const targetWeight = 22.5 * (heightMeters * heightMeters);
+    
+    const result = {
         min: Math.round(minWeight * 10) / 10,
         max: Math.round(maxWeight * 10) / 10,
-        target: Math.round(22.5 * (heightMeters * heightMeters) * 10) / 10
+        target: Math.round(targetWeight * 10) / 10
     };
+    
+    console.log(`⚖️ Ideal weight range: ${result.min}kg - ${result.max}kg (target: ${result.target}kg)`);
+    return result;
 }
 
 function calculatePercentile(bmi, category) {
@@ -126,12 +155,16 @@ function calculatePercentile(bmi, category) {
         obese: 90 + Math.min(10, (bmi - 30) / 20 * 10)
     };
     
-    return Math.round(percentiles[category]);
+    const percentile = Math.round(percentiles[category]);
+    console.log(`📊 Percentile rank: ${percentile}% (BMI: ${bmi}, Category: ${category})`);
+    return percentile;
 }
 
 function calculateDeviation(bmi) {
     const healthyMid = 21.7; // Middle of normal range
-    return Math.round((bmi - healthyMid) * 10) / 10;
+    const deviation = Math.round((bmi - healthyMid) * 10) / 10;
+    console.log(`📈 Deviation from healthy mid-point: ${deviation} (BMI: ${bmi})`);
+    return deviation;
 }
 
 // ============================================
@@ -143,11 +176,14 @@ function calculateWeightChange(currentWeight, height, targetBMI = TARGET_BMI) {
     const targetWeight = targetBMI * (heightMeters * heightMeters);
     const weightChange = targetWeight - currentWeight;
     
-    return {
+    const result = {
         change: Math.round(Math.abs(weightChange) * 10) / 10,
         direction: weightChange > 0 ? 'gain' : 'reduce',
         targetWeight: Math.round(targetWeight * 10) / 10
     };
+    
+    console.log(`⏳ Weight change needed: ${result.change}kg (direction: ${result.direction})`);
+    return result;
 }
 
 function estimateTimeToGoal(weightChange, category) {
@@ -158,29 +194,28 @@ function estimateTimeToGoal(weightChange, category) {
     const adjustedRate = safeRate / riskFactor;
     const weeks = Math.ceil(weightChange / adjustedRate);
     
-    return {
+    const result = {
         weeks: weeks,
         months: Math.ceil(weeks / 4.345),
         rate: adjustedRate,
         safeRate: safeRate
     };
+    
+    console.log(`📅 Time estimation: ${result.weeks} weeks (≈${result.months} months)`);
+    return result;
 }
 
 function calculateProgressPercentage(currentBMI, category) {
     const categoryInfo = BMI_CATEGORIES[category];
     
+    let progress;
     if (category === 'normal') {
         // For normal weight, progress is distance from edges
-        const distanceFromBottom = Math.abs(currentBMI - categoryInfo.min);
-        const distanceFromTop = Math.abs(currentBMI - categoryInfo.max);
-        const rangeWidth = categoryInfo.max - categoryInfo.min;
-        
-        // Progress towards the middle (22.5)
         const middlePoint = 22.5;
         const distanceFromMiddle = Math.abs(currentBMI - middlePoint);
         const maxDistance = Math.max(middlePoint - categoryInfo.min, categoryInfo.max - middlePoint);
         
-        return Math.round(((maxDistance - distanceFromMiddle) / maxDistance) * 100);
+        progress = Math.round(((maxDistance - distanceFromMiddle) / maxDistance) * 100);
     } else {
         // For non-normal categories, progress towards normal range
         const targetEdge = category === 'underweight' ? categoryInfo.max : categoryInfo.min;
@@ -189,7 +224,307 @@ function calculateProgressPercentage(currentBMI, category) {
             categoryInfo.max : 
             Math.min(10, currentBMI - targetEdge); // Cap at 10 BMI points
         
-        return Math.round(((maxDistance - distance) / maxDistance) * 100);
+        progress = Math.round(((maxDistance - distance) / maxDistance) * 100);
+    }
+    
+    console.log(`📊 Progress percentage: ${progress}% (BMI: ${currentBMI}, Category: ${category})`);
+    return Math.max(0, Math.min(100, progress)); // Ensure between 0-100
+}
+
+// ============================================
+// GOOGLE SHEETS INTEGRATION - FIXED VERSION
+// ============================================
+
+async function submitToGoogleSheets(userData) {
+    console.log('🚀 Starting Google Sheets submission...');
+    console.log('User Data for Sheets:', userData);
+    
+    // Check if URL is configured
+    if (GOOGLE_APPS_SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE') || GOOGLE_APPS_SCRIPT_URL === '') {
+        console.error('❌ ERROR: Please replace GOOGLE_APPS_SCRIPT_URL with your actual Web App URL');
+        return false;
+    }
+    
+    try {
+        // Prepare data sesuai dengan struktur spreadsheet
+        const payload = {
+            // Parameter HARUS sesuai dengan Google Apps Script
+            timestamp: new Date().toLocaleString('id-ID'), // Format: DD/MM/YYYY HH:MM:SS
+            height: userData.height.toFixed(1),
+            weight: userData.weight.toFixed(1),
+            bmi: userData.bmi.toFixed(1),
+            category: getCategoryName(userData.category), // Nama kategori lengkap
+            note: `BMI: ${userData.bmi.toFixed(1)} | Height: ${userData.height}cm | Weight: ${userData.weight}kg`,
+            method: 'Academic BMI Calculator Web App'
+        };
+        
+        console.log('📤 Payload for Google Sheets:', payload);
+        
+        // Method 1: Try Image Pixel method
+        console.log('🔄 Attempting Image Pixel submission...');
+        const success = await submitViaImagePixel(payload);
+        
+        if (success) {
+            console.log('✅ Data submitted successfully via Image Pixel');
+            return true;
+        } else {
+            // Method 2: Try Fetch method as fallback
+            console.log('🔄 Trying Fetch method as fallback...');
+            const fetchSuccess = await submitViaFetch(payload);
+            
+            if (fetchSuccess) {
+                console.log('✅ Data submitted successfully via Fetch');
+                return true;
+            } else {
+                // Fallback to localStorage
+                console.log('💾 Saving to localStorage as backup');
+                saveToLocalStorage(payload);
+                return false;
+            }
+        }
+        
+    } catch (error) {
+        console.error('❌ Submission error:', error);
+        return false;
+    }
+}
+
+function submitViaImagePixel(payload) {
+    return new Promise((resolve) => {
+        try {
+            // Build URL dengan parameter YANG SESUAI
+            const params = new URLSearchParams();
+            
+            // ⭐⭐⭐ PENTING: Parameter HARUS sesuai dengan Google Apps Script
+            params.append('timestamp', payload.timestamp);
+            params.append('height', payload.height);
+            params.append('weight', payload.weight);
+            params.append('bmi', payload.bmi);
+            params.append('category', payload.category);
+            params.append('note', payload.note);
+            params.append('method', payload.method);
+            
+            const url = `${GOOGLE_APPS_SCRIPT_URL}?${params.toString()}`;
+            console.log('📸 Pixel URL:', url);
+            
+            // Create invisible image
+            const img = new Image();
+            img.width = 1;
+            img.height = 1;
+            img.style.position = 'absolute';
+            img.style.left = '-9999px';
+            img.style.top = '-9999px';
+            img.style.opacity = '0';
+            
+            let success = false;
+            let timedOut = false;
+            
+            img.onload = function() {
+                if (!timedOut) {
+                    console.log('✅ Pixel loaded - data sent successfully');
+                    success = true;
+                    resolve(true);
+                    
+                    // Clean up after 2 seconds
+                    setTimeout(() => {
+                        if (img.parentNode) {
+                            img.parentNode.removeChild(img);
+                        }
+                    }, 2000);
+                }
+            };
+            
+            img.onerror = function() {
+                if (!timedOut) {
+                    console.warn('❌ Pixel failed to load');
+                    resolve(false);
+                }
+            };
+            
+            // Add to page and trigger load
+            document.body.appendChild(img);
+            img.src = url;
+            
+            // Timeout after 10 seconds
+            setTimeout(() => {
+                if (!success) {
+                    console.warn('⏰ Pixel timeout after 10 seconds');
+                    timedOut = true;
+                    resolve(false);
+                }
+            }, 10000);
+            
+        } catch (error) {
+            console.error('Pixel method error:', error);
+            resolve(false);
+        }
+    });
+}
+
+function submitViaFetch(payload) {
+    return new Promise((resolve) => {
+        try {
+            const params = new URLSearchParams();
+            
+            params.append('timestamp', payload.timestamp);
+            params.append('height', payload.height);
+            params.append('weight', payload.weight);
+            params.append('bmi', payload.bmi);
+            params.append('category', payload.category);
+            params.append('note', payload.note);
+            params.append('method', payload.method);
+            
+            const url = `${GOOGLE_APPS_SCRIPT_URL}?${params.toString()}`;
+            console.log('🔗 Fetch URL:', url);
+            
+            // Use fetch with no-cors mode for Google Apps Script
+            fetch(url, {
+                method: 'GET',
+                mode: 'no-cors',
+                cache: 'no-cache'
+            })
+            .then(() => {
+                console.log('✅ Fetch request sent (no-cors mode)');
+                resolve(true);
+            })
+            .catch(error => {
+                console.warn('❌ Fetch request failed:', error);
+                resolve(false);
+            });
+            
+        } catch (error) {
+            console.error('Fetch method error:', error);
+            resolve(false);
+        }
+    });
+}
+
+function saveToLocalStorage(data) {
+    try {
+        const pending = JSON.parse(localStorage.getItem('bmi_pending_submissions') || '[]');
+        pending.push({
+            ...data,
+            savedAt: new Date().toISOString(),
+            attempts: 0,
+            id: Date.now() + Math.random().toString(36).substr(2, 9)
+        });
+        
+        localStorage.setItem('bmi_pending_submissions', JSON.stringify(pending));
+        console.log('💾 Saved to localStorage. Total pending submissions:', pending.length);
+        
+        // Try to sync pending submissions every minute
+        setTimeout(() => {
+            syncPendingSubmissions();
+        }, 60000);
+        
+        return true;
+    } catch (error) {
+        console.error('LocalStorage error:', error);
+        return false;
+    }
+}
+
+async function syncPendingSubmissions() {
+    const pending = JSON.parse(localStorage.getItem('bmi_pending_submissions') || '[]');
+    if (pending.length === 0) return;
+    
+    console.log(`🔄 Syncing ${pending.length} pending submissions...`);
+    
+    const successful = [];
+    const updatedPending = [];
+    
+    for (let i = 0; i < pending.length; i++) {
+        const data = pending[i];
+        
+        // Skip if already attempted 3 times
+        if (data.attempts >= 3) {
+            console.log(`Skipping submission ${data.id} - too many attempts`);
+            continue;
+        }
+        
+        try {
+            // Remove id and attempts from payload
+            const { id, attempts, savedAt, ...payload } = data;
+            
+            const success = await submitViaImagePixel(payload);
+            
+            if (success) {
+                successful.push(data.id);
+                console.log(`✅ Successfully synced submission ${data.id}`);
+            } else {
+                // Increment attempts and keep in pending
+                data.attempts = (data.attempts || 0) + 1;
+                updatedPending.push(data);
+                console.log(`⚠️ Failed to sync submission ${data.id}, attempt ${data.attempts}`);
+            }
+        } catch (error) {
+            console.error(`Error syncing submission ${data.id}:`, error);
+            data.attempts = (data.attempts || 0) + 1;
+            updatedPending.push(data);
+        }
+    }
+    
+    // Update localStorage
+    if (successful.length > 0) {
+        const remaining = pending.filter(item => !successful.includes(item.id));
+        localStorage.setItem('bmi_pending_submissions', JSON.stringify(remaining));
+        console.log(`✅ Removed ${successful.length} successfully synced submissions`);
+    }
+}
+
+function updateSubmissionStatus(success, message = '') {
+    const statusDot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text');
+    const progressBar = document.getElementById('progress-bar');
+    const submissionMessage = document.getElementById('submission-message');
+    
+    if (!statusDot || !statusText) return;
+    
+    // Animate progress bar
+    if (progressBar) {
+        progressBar.style.width = success ? '100%' : '50%';
+    }
+    
+    if (success) {
+        statusDot.className = 'status-dot success';
+        statusText.textContent = 'Data Submitted Successfully';
+        statusText.style.color = 'var(--success-color)';
+        
+        if (submissionMessage) {
+            submissionMessage.innerHTML = `
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i> 
+                    <div>
+                        <strong>Research Data Submitted</strong>
+                        <p>Your anonymous BMI data has been successfully recorded in the research database.</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Update status dot after animation
+        setTimeout(() => {
+            if (statusDot) statusDot.style.animation = 'none';
+        }, 2000);
+        
+    } else {
+        statusDot.className = 'status-dot';
+        statusDot.style.background = 'var(--warning-color)';
+        statusText.textContent = message || 'Data Saved Locally';
+        statusText.style.color = 'var(--warning-color)';
+        
+        if (submissionMessage) {
+            const msg = message || 'Data saved locally. Will sync when connection is available.';
+            submissionMessage.innerHTML = `
+                <div class="warning-message">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    <div>
+                        <strong>Local Storage</strong>
+                        <p>${msg}</p>
+                    </div>
+                </div>
+            `;
+        }
     }
 }
 
@@ -224,6 +559,7 @@ function updateTimeEstimationDisplay(userData) {
     if (timelineProgressEl) {
         setTimeout(() => {
             timelineProgressEl.style.width = `${progressPercentage}%`;
+            timelineProgressEl.style.transition = 'width 1.5s ease-in-out';
         }, 500);
     }
     
@@ -235,10 +571,12 @@ function updateTimeEstimationDisplay(userData) {
             
             // Current position (always at start for estimation)
             currentMarkerEl.style.left = '0px';
+            currentMarkerEl.style.transition = 'left 1.5s ease-in-out';
             
             // Goal position based on progress
             const goalPosition = (progressPercentage / 100) * barWidth;
             goalMarkerEl.style.left = `${goalPosition}px`;
+            goalMarkerEl.style.transition = 'left 1.5s ease-in-out';
         }
     }
     
@@ -248,6 +586,8 @@ function updateTimeEstimationDisplay(userData) {
         summaryTimeEl.textContent = `${timeEstimate.weeks} weeks`;
     }
     
+    console.log('⏰ Time estimation display updated');
+    
     return {
         weightChange,
         timeEstimate,
@@ -256,19 +596,28 @@ function updateTimeEstimationDisplay(userData) {
 }
 
 function updateResultDisplay(userData) {
-    const { height, weight, bmi, category, idealWeight } = userData;
+    const { height, weight, bmi, category } = userData;
+    const idealWeight = calculateIdealWeightRange(height);
     const categoryInfo = BMI_CATEGORIES[category];
+    
+    console.log('🔄 Updating result display:', { bmi, category: categoryInfo.name });
     
     // Update basic BMI display
     const bmiValueEl = document.getElementById('bmi-value');
     const bmiCategoryEl = document.getElementById('bmi-category');
     const categorySubtitleEl = document.getElementById('category-subtitle');
     
-    if (bmiValueEl) bmiValueEl.textContent = bmi.toFixed(1);
+    if (bmiValueEl) {
+        bmiValueEl.textContent = bmi.toFixed(1);
+        bmiValueEl.style.transition = 'all 0.5s ease';
+    }
+    
     if (bmiCategoryEl) {
         bmiCategoryEl.textContent = categoryInfo.name;
         bmiCategoryEl.style.color = categoryInfo.color;
+        bmiCategoryEl.style.transition = 'all 0.5s ease';
     }
+    
     if (categorySubtitleEl) categorySubtitleEl.textContent = categoryInfo.description;
     
     // Update scale marker
@@ -316,7 +665,7 @@ function updateResultDisplay(userData) {
     if (comparisonTextEl) {
         const deviation = calculateDeviation(bmi);
         const direction = deviation > 0 ? 'above' : 'below';
-        comparisonTextEl.textContent = `Your BMI is ${Math.abs(deviation)} points ${direction} the healthy range midpoint.`;
+        comparisonTextEl.textContent = `Your BMI is ${Math.abs(deviation)} points ${direction} the healthy range midpoint (21.7).`;
     }
     
     // Update risk indicator
@@ -324,11 +673,16 @@ function updateResultDisplay(userData) {
     
     // Update summary page
     updateSummaryPage(userData);
+    
+    console.log('✅ Result display updated successfully');
 }
 
 function updateScaleMarker(bmi, category) {
     const marker = document.getElementById('scale-marker');
-    if (!marker) return;
+    if (!marker) {
+        console.warn('⚠️ Scale marker element not found');
+        return;
+    }
     
     let position;
     if (bmi < 18.5) {
@@ -342,23 +696,32 @@ function updateScaleMarker(bmi, category) {
     }
     
     marker.style.left = `${position}%`;
+    marker.style.transition = 'left 1s ease-in-out';
     
     // Update marker color based on category
     const markerDot = marker.querySelector('.marker-dot');
     if (markerDot) {
         markerDot.style.background = BMI_CATEGORIES[category].color;
+        markerDot.style.transition = 'background 0.5s ease';
     }
+    
+    console.log(`📍 Scale marker positioned at ${position}% (BMI: ${bmi})`);
 }
 
 function updateRiskIndicator(category) {
     const riskIndicator = document.getElementById('risk-indicator');
-    if (!riskIndicator) return;
+    if (!riskIndicator) {
+        console.warn('⚠️ Risk indicator element not found');
+        return;
+    }
     
     const riskLevel = BMI_CATEGORIES[category].riskLevel;
     
     // Reset all
     riskIndicator.querySelectorAll('.risk-level').forEach(level => {
         level.style.opacity = '0.3';
+        level.style.transform = 'scale(1)';
+        level.style.transition = 'all 0.3s ease';
     });
     
     // Highlight current risk level
@@ -366,6 +729,7 @@ function updateRiskIndicator(category) {
     if (currentRisk) {
         currentRisk.style.opacity = '1';
         currentRisk.style.transform = 'scale(1.1)';
+        console.log(`⚠️ Risk level highlighted: ${riskLevel}`);
     }
 }
 
@@ -395,284 +759,64 @@ function updateSummaryPage(userData) {
 }
 
 // ============================================
-// GOOGLE SHEETS INTEGRATION
-// ============================================
-
-async function submitToGoogleSheets(userData) {
-    console.log('🚀 Starting Google Sheets submission...');
-    
-    // Check if URL is configured
-    if (GOOGLE_APPS_SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) {
-        console.error('❌ ERROR: Please replace GOOGLE_APPS_SCRIPT_URL with your Web App URL');
-        updateSubmissionStatus(false, 'URL not configured');
-        return false;
-    }
-    
-    try {
-        // Prepare data
-        const payload = {
-            height: userData.height.toFixed(1),
-            weight: userData.weight.toFixed(1),
-            bmi: userData.bmi.toFixed(1),
-            category: BMI_CATEGORIES[userData.category].name,
-            note: `Deviation: ${calculateDeviation(userData.bmi)}`,
-            method: 'web_app',
-            timestamp: Date.now(),
-            student1: 'Bagaskara Putera Marendra',
-            student2: 'M. Arif Al-Ghifary',
-            course: 'Sistem Informasi Manajemen'
-        };
-        
-        console.log('📤 Payload:', payload);
-        
-        // Submit via Image Pixel method
-        const success = await submitViaImagePixel(payload);
-        
-        if (success) {
-            console.log('✅ Data submitted successfully');
-            updateSubmissionStatus(true);
-            return true;
-        } else {
-            // Fallback to localStorage
-            console.log('💾 Saving to localStorage as backup');
-            saveToLocalStorage(payload);
-            updateSubmissionStatus(false, 'Saved locally');
-            return false;
-        }
-        
-    } catch (error) {
-        console.error('❌ Submission error:', error);
-        updateSubmissionStatus(false, error.message);
-        return false;
-    }
-}
-
-function submitViaImagePixel(payload) {
-    return new Promise((resolve) => {
-        try {
-            // Build URL with parameters
-            const params = new URLSearchParams();
-            Object.entries(payload).forEach(([key, value]) => {
-                params.append(key, value);
-            });
-            
-            const url = `${GOOGLE_APPS_SCRIPT_URL}?${params.toString()}`;
-            console.log('📸 Pixel URL:', url);
-            
-            // Create invisible image
-            const img = new Image();
-            img.width = 1;
-            img.height = 1;
-            img.style.position = 'absolute';
-            img.style.left = '-9999px';
-            img.style.top = '-9999px';
-            img.style.opacity = '0';
-            
-            let success = false;
-            
-            img.onload = function() {
-                console.log('✅ Pixel loaded - data sent');
-                success = true;
-                resolve(true);
-                
-                // Clean up
-                setTimeout(() => {
-                    if (img.parentNode) {
-                        img.parentNode.removeChild(img);
-                    }
-                }, 1000);
-            };
-            
-            img.onerror = function() {
-                console.warn('❌ Pixel failed to load');
-                resolve(false);
-            };
-            
-            // Add to page and trigger load
-            document.body.appendChild(img);
-            img.src = url;
-            
-            // Timeout after 5 seconds
-            setTimeout(() => {
-                if (!success) {
-                    console.warn('⏰ Pixel timeout');
-                    resolve(false);
-                }
-            }, 5000);
-            
-        } catch (error) {
-            console.error('Pixel method error:', error);
-            resolve(false);
-        }
-    });
-}
-
-function saveToLocalStorage(data) {
-    try {
-        const pending = JSON.parse(localStorage.getItem('bmi_pending_submissions') || '[]');
-        pending.push({
-            ...data,
-            savedAt: new Date().toISOString(),
-            attempts: 0
-        });
-        
-        localStorage.setItem('bmi_pending_submissions', JSON.stringify(pending));
-        console.log('💾 Saved to localStorage. Total pending:', pending.length);
-        
-        return true;
-    } catch (error) {
-        console.error('LocalStorage error:', error);
-        return false;
-    }
-}
-
-function updateSubmissionStatus(success, message = '') {
-    const statusDot = document.getElementById('status-dot');
-    const statusText = document.getElementById('status-text');
-    const progressBar = document.getElementById('progress-bar');
-    const submissionMessage = document.getElementById('submission-message');
-    
-    if (!statusDot || !statusText) return;
-    
-    // Animate progress bar
-    if (progressBar) {
-        progressBar.style.width = success ? '100%' : '50%';
-    }
-    
-    if (success) {
-        statusDot.className = 'status-dot success';
-        statusText.textContent = 'Data Submitted Successfully';
-        statusText.style.color = 'var(--success-color)';
-        
-        if (submissionMessage) {
-            submissionMessage.innerHTML = `
-                <div class="success-message">
-                    <i class="fas fa-check-circle"></i> 
-                    <div>
-                        <strong>Research Data Submitted</strong>
-                        <p>Your anonymous BMI data has been successfully recorded in the research database.</p>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Update status dot after animation
-        setTimeout(() => {
-            statusDot.style.animation = 'none';
-        }, 2000);
-        
-    } else {
-        statusDot.className = 'status-dot';
-        statusDot.style.background = 'var(--warning-color)';
-        statusText.textContent = message || 'Data Saved Locally';
-        statusText.style.color = 'var(--warning-color)';
-        
-        if (submissionMessage) {
-            const msg = message || 'Data saved locally. Will sync when connection is available.';
-            submissionMessage.innerHTML = `
-                <div class="warning-message">
-                    <i class="fas fa-exclamation-triangle"></i> 
-                    <div>
-                        <strong>Local Storage</strong>
-                        <p>${msg}</p>
-                    </div>
-                </div>
-            `;
-        }
-    }
-}
-
-// ============================================
 // PAGE INITIALIZATION
 // ============================================
 
 function initInputPage() {
-    const form = document.getElementById('bmi-form');
-    if (!form) return;
+    console.log('📝 Initializing Input Page...');
     
+    // HANYA inisialisasi modal dan reset button di sini
+    // Form handling sudah dilakukan oleh inline JavaScript di index.html
+    initModals();
+    
+    // Reset button handler
     const resetBtn = document.getElementById('reset-btn');
-    const errorMessage = document.getElementById('error-message');
-    
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const height = parseFloat(document.getElementById('height').value);
-        const weight = parseFloat(document.getElementById('weight').value);
-        const consent = document.getElementById('data-consent').checked;
-        
-        // Validation
-        if (!height || !weight) {
-            showError('Please enter both height and weight for accurate calculation.');
-            return;
-        }
-        
-        if (height < 50 || height > 250) {
-            showError('Please enter a valid height between 50cm and 250cm.');
-            return;
-        }
-        
-        if (weight < 30 || weight > 200) {
-            showError('Please enter a valid weight between 30kg and 200kg.');
-            return;
-        }
-        
-        // Calculate BMI
-        const bmi = calculateBMI(height, weight);
-        const category = getBMICategory(bmi);
-        const idealWeight = calculateIdealWeightRange(height);
-        
-        // Prepare user data
-        const userData = {
-            height: height,
-            weight: weight,
-            bmi: bmi,
-            category: category,
-            idealWeight: idealWeight,
-            consent: consent,
-            timestamp: new Date().toISOString()
-        };
-        
-        // Save and redirect
-        if (saveUserData(userData)) {
-            // Add smooth transition
-            document.body.style.opacity = '0.7';
-            setTimeout(() => {
-                window.location.href = 'result.html';
-            }, 300);
-        } else {
-            showError('Unable to save data. Please try again.');
-        }
-    });
-    
     if (resetBtn) {
         resetBtn.addEventListener('click', function() {
-            form.reset();
-            if (errorMessage) errorMessage.classList.remove('show');
-            // Reset consent checkbox to checked
-            document.getElementById('data-consent').checked = true;
+            const form = document.getElementById('bmi-form');
+            if (form) {
+                form.reset();
+                document.getElementById('data-consent').checked = true;
+                
+                const errorDiv = document.getElementById('error-message');
+                if (errorDiv) errorDiv.style.display = 'none';
+                
+                console.log('🔄 Form reset');
+            }
         });
     }
     
-    initModals();
+    // Update navigation links based on existing data
+    const resultLink = document.getElementById('result-link');
+    const suggestionsLink = document.getElementById('suggestions-link');
     
-    function showError(message) {
-        if (errorMessage) {
-            errorMessage.textContent = message;
-            errorMessage.classList.add('show');
-            setTimeout(() => {
-                errorMessage.classList.remove('show');
-            }, 5000);
+    if (resultLink && suggestionsLink) {
+        const existingBMI = localStorage.getItem('bmiValue');
+        if (existingBMI) {
+            resultLink.href = 'result.html';
+            suggestionsLink.href = 'suggestion.html';
+            console.log('🔗 Navigation links updated (data exists)');
         }
     }
+    
+    // Log debug info
+    console.log('✅ Input page initialized');
+    console.log('Google Sheets URL:', GOOGLE_APPS_SCRIPT_URL);
+    console.log('submitToGoogleSheets function:', typeof submitToGoogleSheets);
 }
 
 function initResultPage() {
+    console.log('📊 Initializing Result Page...');
+    
     const userData = getUserData();
     
     if (!userData) {
+        console.log('❌ No user data found, redirecting to index...');
         window.location.href = 'index.html';
         return;
     }
+    
+    console.log('📋 User Data for Result:', userData);
     
     // Update all displays
     updateResultDisplay(userData);
@@ -683,7 +827,8 @@ function initResultPage() {
         ...userData,
         timeEstimation: timeEstimation,
         deviation: calculateDeviation(userData.bmi),
-        percentile: calculatePercentile(userData.bmi, userData.category)
+        percentile: calculatePercentile(userData.bmi, userData.category),
+        idealWeight: calculateIdealWeightRange(userData.height)
     };
     
     // Save updated data
@@ -704,6 +849,7 @@ function initResultPage() {
     if (nextBtn) {
         nextBtn.addEventListener('click', function(e) {
             e.preventDefault();
+            console.log('➡️ Navigating to suggestions page');
             window.location.href = 'suggestion.html';
         });
     }
@@ -712,7 +858,9 @@ function initResultPage() {
     const viewDataBtn = document.getElementById('view-data-btn');
     if (viewDataBtn) {
         viewDataBtn.addEventListener('click', function() {
-            alert(`Your Data:\nHeight: ${userData.height} cm\nWeight: ${userData.weight} kg\nBMI: ${userData.bmi}\nCategory: ${BMI_CATEGORIES[userData.category].name}`);
+            const message = `Your Data:\n\nHeight: ${userData.height} cm\nWeight: ${userData.weight} kg\nBMI: ${userData.bmi}\nCategory: ${getCategoryName(userData.category)}\n\nIdeal Weight Range: ${calculateIdealWeightRange(userData.height).min}kg - ${calculateIdealWeightRange(userData.height).max}kg`;
+            alert(message);
+            console.log('👁️ View data button clicked');
         });
     }
     
@@ -724,30 +872,41 @@ function initResultPage() {
         });
     }
     
-    // Submit to Google Sheets if consent
+    // Submission status untuk data yang sudah disubmit dari index.html
     if (userData.consent) {
-        // Show loading animation
-        updateSubmissionStatus(false, 'Submitting data...');
+        // Data sudah disubmit dari index.html, hanya update status
+        updateSubmissionStatus(true, 'Data submitted successfully');
         
-        // Delay submission for better UX
-        setTimeout(() => {
-            submitToGoogleSheets(userData);
-        }, 1500);
+        // Check for pending submissions
+        const pending = JSON.parse(localStorage.getItem('bmi_pending_submissions') || '[]');
+        if (pending.length > 0) {
+            console.log(`🔄 Found ${pending.length} pending submissions, attempting sync...`);
+            setTimeout(() => {
+                syncPendingSubmissions();
+            }, 3000);
+        }
     } else {
         updateSubmissionStatus(false, 'Opted out of data collection');
     }
+    
+    console.log('✅ Result page initialized');
 }
 
 function initSuggestionPage() {
+    console.log('💡 Initializing Suggestion Page...');
+    
     const userData = getUserData();
     
     if (!userData) {
+        console.log('❌ No user data found, redirecting to index...');
         window.location.href = 'index.html';
         return;
     }
     
     const { category, timeEstimation } = userData;
     const categoryInfo = BMI_CATEGORIES[category];
+    
+    console.log('📋 User Data for Suggestions:', { category: categoryInfo.name, timeEstimation });
     
     // Update summary
     updateSummaryPage(userData);
@@ -767,6 +926,7 @@ function initSuggestionPage() {
     const printBtn = document.getElementById('print-btn');
     if (printBtn) {
         printBtn.addEventListener('click', function() {
+            console.log('🖨️ Print button clicked');
             window.print();
         });
     }
@@ -774,12 +934,17 @@ function initSuggestionPage() {
     const savePlanBtn = document.getElementById('save-plan-btn');
     if (savePlanBtn) {
         savePlanBtn.addEventListener('click', function() {
+            console.log('💾 Save plan button clicked');
             saveActionPlan(userData);
         });
     }
+    
+    console.log('✅ Suggestion page initialized');
 }
 
 function exportDataAsPDF(userData, timeEstimation) {
+    console.log('📄 Exporting data as PDF...');
+    
     // Simple export functionality
     const dataStr = `
 ACADEMIC BMI ANALYSIS REPORT
@@ -795,14 +960,15 @@ Weight: ${userData.weight} kg
 BMI ANALYSIS
 ------------
 BMI Value: ${userData.bmi} kg/m²
-WHO Category: ${BMI_CATEGORIES[userData.category].name}
+WHO Category: ${getCategoryName(userData.category)}
 Percentile Rank: ${calculatePercentile(userData.bmi, userData.category)}%
+Deviation from Healthy Range: ${calculateDeviation(userData.bmi)}
 
 IDEAL WEIGHT RANGE
 ------------------
-Minimum: ${userData.idealWeight.min} kg
-Maximum: ${userData.idealWeight.max} kg
-Target: ${userData.idealWeight.target} kg
+Minimum: ${calculateIdealWeightRange(userData.height).min} kg
+Maximum: ${calculateIdealWeightRange(userData.height).max} kg
+Target: ${calculateIdealWeightRange(userData.height).target} kg
 
 TIME ESTIMATION
 ---------------
@@ -815,12 +981,17 @@ HEALTH RECOMMENDATIONS
 Focus Area: ${BMI_CATEGORIES[userData.category].focus}
 Direction: ${BMI_CATEGORIES[userData.category].direction}
 
+RESEARCH DATA CONTRIBUTION
+--------------------------
+This data has been contributed anonymously to academic research.
+
 This report is generated for educational purposes.
 Universitas Islam Indonesia - Sistem Informasi Manajemen
+Students: Bagaskara Putera Marendra & M. Arif Al-Ghifary
 `;
     
     // Create download link
-    const blob = new Blob([dataStr], { type: 'text/plain' });
+    const blob = new Blob([dataStr], { type: 'text/plain;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -830,18 +1001,22 @@ Universitas Islam Indonesia - Sistem Informasi Manajemen
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
     
+    console.log('✅ Report downloaded successfully');
     alert('Report downloaded as text file.');
 }
 
 function saveActionPlan(userData) {
+    console.log('📋 Saving action plan...');
+    
     const plan = `
 PERSONAL HEALTH ACTION PLAN
 ============================
 Based on BMI Analysis
+Generated: ${new Date().toLocaleDateString()}
 
 CURRENT STATUS
 --------------
-BMI: ${userData.bmi} (${BMI_CATEGORIES[userData.category].name})
+BMI: ${userData.bmi} (${getCategoryName(userData.category)})
 Category: ${BMI_CATEGORIES[userData.category].description}
 
 ACTION PLAN
@@ -883,7 +1058,7 @@ Students: Bagaskara Putera Marendra & M. Arif Al-Ghifary
 `;
     
     // Create download link
-    const blob = new Blob([plan], { type: 'text/plain' });
+    const blob = new Blob([plan], { type: 'text/plain;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -893,6 +1068,7 @@ Students: Bagaskara Putera Marendra & M. Arif Al-Ghifary
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
     
+    console.log('✅ Action plan downloaded successfully');
     alert('Action Plan downloaded successfully.');
 }
 
@@ -901,45 +1077,66 @@ Students: Bagaskara Putera Marendra & M. Arif Al-Ghifary
 // ============================================
 
 function initModals() {
+    console.log('🎪 Initializing modals...');
+    
+    // 1. Modal close buttons
     const modalCloseButtons = document.querySelectorAll('.modal-close');
-    const modals = document.querySelectorAll('.modal');
-    
     modalCloseButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             const modal = this.closest('.modal');
-            if (modal) modal.style.display = 'none';
-        });
-    });
-    
-    window.addEventListener('click', function(e) {
-        modals.forEach(modal => {
-            if (e.target === modal) {
+            if (modal) {
                 modal.style.display = 'none';
+                console.log('❌ Modal closed');
             }
         });
     });
-    
-    // Modal link mappings
-    const modalLinks = {
-        'privacy-link': 'privacy-modal',
-        'methodology-link': 'privacy-modal',
-        'references-link': 'references-modal',
-        'disclaimer-link': 'disclaimer-modal',
-        'about-link': 'references-modal',
-        'contact-link': 'privacy-modal'
-    };
-    
-    Object.entries(modalLinks).forEach(([linkId, modalId]) => {
-        const link = document.getElementById(linkId);
-        const modal = document.getElementById(modalId);
-        
-        if (link && modal) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+
+    // 2. Modal triggers dengan data-modal attribute
+    const modalTriggers = document.querySelectorAll('[data-modal]');
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const modalId = this.getAttribute('data-modal');
+            const modal = document.getElementById(modalId);
+            
+            if (modal) {
+                // Close semua modal lainnya
+                document.querySelectorAll('.modal').forEach(m => {
+                    m.style.display = 'none';
+                });
+                
+                // Tampilkan modal yang dipilih
                 modal.style.display = 'flex';
-            });
+                modal.style.animation = 'fadeIn 0.3s ease';
+                
+                console.log(`📂 Modal opened: ${modalId}`);
+            }
+        });
+    });
+
+    // 3. Close modal saat klik di luar konten
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+            console.log('❌ Modal closed (outside click)');
         }
     });
+
+    // 4. Close modal dengan ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            console.log('❌ All modals closed (ESC key)');
+        }
+    });
+    
+    console.log('✅ Modals initialized');
 }
 
 // ============================================
@@ -957,7 +1154,6 @@ window.testGoogleSheets = function(height = 170, weight = 65) {
         weight: weight,
         bmi: bmi,
         category: category,
-        idealWeight: calculateIdealWeightRange(height),
         consent: true,
         timestamp: new Date().toISOString()
     };
@@ -966,28 +1162,46 @@ window.testGoogleSheets = function(height = 170, weight = 65) {
     
     // Direct test URL
     const params = new URLSearchParams({
-        height: height,
-        weight: weight,
+        timestamp: new Date().toLocaleString('id-ID'),
+        height: height.toFixed(1),
+        weight: weight.toFixed(1),
         bmi: bmi.toFixed(1),
-        category: BMI_CATEGORIES[category].name,
-        note: 'Test from console',
-        method: 'test',
-        timestamp: Date.now(),
-        student1: 'Bagaskara Putera Marendra',
-        student2: 'M. Arif Al-Ghifary'
+        category: getCategoryName(category),
+        note: `Test submission from console | BMI: ${bmi.toFixed(1)}`,
+        method: 'Test Console Submission'
     });
     
     const testUrl = `${GOOGLE_APPS_SCRIPT_URL}?${params.toString()}`;
-    console.log('Direct URL:', testUrl);
+    console.log('Direct Test URL:', testUrl);
     
-    // Open in new tab
+    // Open in new tab for manual testing
     window.open(testUrl, '_blank');
     
-    // Test submission
+    // Test submission via function
     submitToGoogleSheets(testData).then(success => {
         console.log('Result:', success ? '✅ Success' : '❌ Failed');
         console.groupEnd();
     });
+};
+
+window.viewPendingSubmissions = function() {
+    const pending = JSON.parse(localStorage.getItem('bmi_pending_submissions') || '[]');
+    console.log('📋 Pending Submissions:', pending);
+    console.log(`Total: ${pending.length} submissions pending`);
+    
+    if (pending.length > 0) {
+        alert(`There are ${pending.length} submissions pending synchronization. Check console for details.`);
+    } else {
+        alert('No pending submissions.');
+    }
+    
+    return pending;
+};
+
+window.clearPendingSubmissions = function() {
+    localStorage.removeItem('bmi_pending_submissions');
+    console.log('🧹 All pending submissions cleared');
+    alert('All pending submissions have been cleared.');
 };
 
 // ============================================
@@ -995,7 +1209,10 @@ window.testGoogleSheets = function(height = 170, weight = 65) {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Document loaded, initializing...');
+    
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    console.log('📄 Current page:', currentPage);
     
     switch(currentPage) {
         case 'index.html':
@@ -1008,13 +1225,23 @@ document.addEventListener('DOMContentLoaded', function() {
         case 'suggestion.html':
             initSuggestionPage();
             break;
+        default:
+            console.warn('⚠️ Unknown page, defaulting to index');
+            initInputPage();
     }
     
     // Clear data on start over
     document.querySelectorAll('a[href="index.html"]').forEach(link => {
         link.addEventListener('click', function(e) {
             if (this.getAttribute('href') === 'index.html') {
+                console.log('🔄 Starting new assessment, clearing data...');
                 clearUserData();
+                // Clear localStorage untuk data lama juga
+                localStorage.removeItem('bmiHeight');
+                localStorage.removeItem('bmiWeight');
+                localStorage.removeItem('bmiValue');
+                localStorage.removeItem('bmiCategory');
+                localStorage.removeItem('bmiCalculated');
             }
         });
     });
@@ -1022,8 +1249,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Development helper
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         console.log('🛠 Development mode active');
-        console.log('Run testGoogleSheets() to test integration');
-        console.log('Current URL:', GOOGLE_APPS_SCRIPT_URL);
+        console.log('Available test functions:');
+        console.log('- testGoogleSheets(height, weight)');
+        console.log('- viewPendingSubmissions()');
+        console.log('- clearPendingSubmissions()');
+        console.log('Current Google Sheets URL:', GOOGLE_APPS_SCRIPT_URL);
     }
     
     // Add fade-in animation to cards
@@ -1033,4 +1263,39 @@ document.addEventListener('DOMContentLoaded', function() {
             card.classList.add('fade-in');
         });
     }, 100);
+    
+    console.log('✅ Application initialized successfully');
 });
+
+// ============================================
+// GLOBAL ERROR HANDLING
+// ============================================
+
+window.addEventListener('error', function(e) {
+    console.error('🚨 Global error caught:', e.error);
+    console.error('Error details:', {
+        message: e.message,
+        filename: e.filename,
+        lineno: e.lineno,
+        colno: e.colno
+    });
+});
+
+// ============================================
+// EXPORT FUNCTIONS FOR GLOBAL USE
+// ============================================
+
+// Export important functions for use in inline scripts
+window.BMI_APP = {
+    calculateBMI,
+    getBMICategory,
+    getCategoryName,
+    calculateIdealWeightRange,
+    submitToGoogleSheets,
+    saveUserData,
+    getUserData,
+    clearUserData,
+    testGoogleSheets
+};
+
+console.log('📦 BMI Application functions exported to window.BMI_APP');

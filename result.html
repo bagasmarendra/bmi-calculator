@@ -5,62 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator - Results | Academic Health Tool</title>
     <meta name="description" content="Your BMI calculation results and interpretation">
+    
+    <!-- Bootstrap 5 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- CSS Utama Anda -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-       <!-- University Header (sama untuk semua halaman) -->
-<div class="university-header">
-    <div class="university-logo-container">
-        <!-- Logo UII dari website resmi -->
-        <!-- Menjadi ini: -->
-<div class="logo-wrapper">
-    <img src="assets/images.png" 
-         alt="Universitas Islam Indonesia" 
-         class="university-logo"
-         onerror="this.onerror=null; this.src='assets/logo-backup.png'">
-</div>
-        <div class="university-info">
-            <h3>UNIVERSITAS ISLAM INDONESIA</h3>
-            <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
-            <div class="academic-badge">
-                <span class="badge-course">Sistem Informasi Manajemen</span>
-                <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
-            </div>
-        </div>
-    </div>
     
-    <div class="project-badge">
-        <div class="badge-content">
-            <i class="fas fa-graduation-cap"></i>
-            <div>
-                <h4>Academic BMI Calculator</h4>
-                <p>A Research-Oriented Health Assessment Tool</p>
+    <style>
+        /* Custom Bootstrap Styles */
+        .bootstrap-enhanced {
+            --bs-primary: #0056b3;
+            --bs-secondary: #6c757d;
+            --bs-success: #27ae60;
+            --bs-warning: #f39c12;
+            --bs-danger: #e74c3c;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%) !important;
+            border-color: #16a085 !important;
+            color: white !important;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(22, 160, 133, 0.3) !important;
+        }
+        
+        .btn-secondary {
+            background: white !important;
+            color: #2c3e50 !important;
+            border: 2px solid #e9ecef !important;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa !important;
+            border-color: #dee2e6 !important;
+        }
+        
+        .btn-outline {
+            background: transparent !important;
+            color: #16a085 !important;
+            border: 2px solid #16a085 !important;
+        }
+        
+        .btn-outline:hover {
+            background: #16a085 !important;
+            color: white !important;
+        }
+        
+        /* Alert styling */
+        .alert {
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+        }
+        
+        .alert-info {
+            background: linear-gradient(135deg, #e6f2ff 0%, #d1e7ff 100%);
+            border: 2px solid #0056b3;
+            color: #003d82;
+        }
+        
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-close:hover {
+            color: #000;
+        }
+        
+        .modal-header {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-body {
+            padding: 1rem 0;
+        }
+        
+        /* Fix grid */
+        .container-custom .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        
+        .container-custom [class*="col-"] {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body class="bootstrap-enhanced">
+    <div class="container-custom">
+        <!-- University Header -->
+        <div class="university-header">
+            <div class="university-logo-container">
+                <div class="logo-wrapper">
+                    <img src="assets/images.png" 
+                         alt="Universitas Islam Indonesia" 
+                         class="university-logo"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/70x70/0056b3/ffffff?text=UII'">
+                </div>
+                <div class="university-info">
+                    <h3>UNIVERSITAS ISLAM INDONESIA</h3>
+                    <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
+                    <div class="academic-badge">
+                        <span class="badge-course">Sistem Informasi Manajemen</span>
+                        <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-badge">
+                <div class="badge-content">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <h4>Academic BMI Calculator</h4>
+                        <p>A Research-Oriented Health Assessment Tool</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-        <!-- Main Header -->
+        <!-- Main Header dengan Navigation -->
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-heartbeat"></i> Academic BMI Calculator</h1>
                 <p class="subtitle">A Research-Oriented Health Assessment Tool</p>
             </div>
-            <nav class="navigation">
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-edit"></i> Input Data
-                </a>
-                <a href="result.html" class="nav-link active">
-                    <i class="fas fa-chart-line"></i> Results
-                </a>
-                <a href="suggestion.html" class="nav-link">
-                    <i class="fas fa-apple-alt"></i> Suggestions
-                </a>
+            
+            <!-- Bootstrap Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">
+                                    <i class="fas fa-edit"></i> Input Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="result.html">
+                                    <i class="fas fa-chart-line"></i> Results
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="suggestion.html">
+                                    <i class="fas fa-apple-alt"></i> Suggestions
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
         </header>
 
@@ -312,56 +462,150 @@
                 </div>
             </div>
         </main>
+<!-- Academic Footer Section -->
+<section class="academic-footer-section">
+    <div class="academic-footer-container">
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4><i class="fas fa-graduation-cap"></i> Academic Project</h4>
-                    <p>This tool is developed as part of academic research in Health Informatics and Data Analysis.</p>
-                    <div class="student-info">
-                        <p><strong>Students:</strong> Bagaskara Putera Marendra & M. Arif Al-Ghifary</p>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> Course Information</h4>
-                    <p><strong>Course:</strong> Sistem Informasi Manajemen</p>
-                    <p><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</p>
-                    <p><strong>Department:</strong> Information Systems</p>
-                    <p><strong>University:</strong> Universitas Islam Indonesia</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-chart-bar"></i> Statistical Analysis</h4>
-                    <p>This page provides:</p>
-                    <ul class="analysis-list">
-                        <li>✓ BMI calculation & classification</li>
-                        <li>✓ Statistical comparison analysis</li>
-                        <li>✓ Health risk assessment</li>
-                        <li>✓ Time estimation modeling</li>
-                    </ul>
-                </div>
+        <!-- Academic Project -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>Academic Project</h4>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
+            <p>
+                This tool is developed as part of academic research in
+                Health Informatics and Data Analysis.
+            </p>
+            <p class="highlight">
+                <strong>Students:</strong><br>
+                Bagaskara Putera Marendra<br>
+                M. Arif Al-Ghifary
+            </p>
+        </div>
+
+        <!-- Course Information -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-book"></i>
+                <h4>Course Information</h4>
+            </div>
+            <ul>
+                <li><strong>Course:</strong> Sistem Informasi Manajemen</li>
+                <li><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</li>
+                <li><strong>Department:</strong> Information Systems</li>
+                <li><strong>University:</strong> Universitas Islam Indonesia</li>
+            </ul>
+        </div>
+
+        <!-- Research Ethics -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Research Ethics</h4>
+            </div>
+            <ul class="ethics-list">
+                <li><i class="fas fa-check"></i> Anonymous data collection</li>
+                <li><i class="fas fa-check"></i> Voluntary participation</li>
+                <li><i class="fas fa-check"></i> Secure data storage</li>
+                <li><i class="fas fa-check"></i> Academic use only</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+        <!-- Footer Vertikal -->
+        <footer class="footer">
+            <div class="footer-vertical">
+                <div class="footer-copyright">
                     <p>© 2025 Academic BMI Calculator - Universitas Islam Indonesia</p>
                     <p class="page-indicator">Page 2 of 3 | Results Analysis Module</p>
                 </div>
-                <div class="footer-links">
-                    <a href="#" class="footer-link" id="disclaimer-link">
-                        <i class="fas fa-exclamation-triangle"></i> Disclaimer
-                    </a>
-                    <a href="#" class="footer-link" id="references-link">
-                        <i class="fas fa-book-open"></i> References
-                    </a>
-                    <a href="#" class="footer-link" id="methodology-link">
-                        <i class="fas fa-flask"></i> Methodology
-                    </a>
+                
+                <div class="footer-links-vertical">
+                    <div class="footer-link-group">
+                        <a href="#" class="footer-link" id="disclaimer-link">
+                            <i class="fas fa-exclamation-triangle"></i> Disclaimer
+                        </a>
+                        <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#referencesModal">
+                            <i class="fas fa-book-open"></i> References
+                        </a>
+                        <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#methodologyModal">
+                            <i class="fas fa-flask"></i> Methodology
+                        </a>
+                    </div>
                 </div>
             </div>
         </footer>
+    </div>
+
+    <!-- Bootstrap Modals -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-shield"></i> Data Privacy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Privacy Policy for Academic BMI Calculator</h6>
+                    <p>This tool is designed for academic research purposes and follows strict data privacy protocols:</p>
+                    <ul>
+                        <li><strong>Anonymous Data Collection:</strong> No personal identifiers are collected</li>
+                        <li><strong>Voluntary Participation:</strong> Users can opt-out of data contribution</li>
+                        <li><strong>Secure Storage:</strong> Data is stored securely with encryption</li>
+                        <li><strong>Academic Use Only:</strong> Data is used exclusively for educational research</li>
+                        <li><strong>Data Retention:</strong> Data is retained for research period only</li>
+                    </ul>
+                    <p><strong>Compliance:</strong> This tool complies with UII Research Ethics Committee guidelines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="methodologyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-flask"></i> Methodology</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Research Methodology</h6>
+                    <p><strong>BMI Calculation Formula:</strong> BMI = weight (kg) / [height (m)]²</p>
+                    <p><strong>Classification Standard:</strong> WHO International Classification (2000)</p>
+                    <p><strong>Data Analysis Methods:</strong></p>
+                    <ul>
+                        <li>Statistical analysis of BMI distribution</li>
+                        <li>Comparative analysis with WHO standards</li>
+                        <li>Health risk assessment based on epidemiological data</li>
+                        <li>Time estimation modeling for weight management</li>
+                    </ul>
+                    <p><strong>Research Tools:</strong> HTML5, CSS3, JavaScript, Bootstrap 5, Google Apps Script</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="referencesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-book-open"></i> References</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Academic References</h6>
+                    <ul>
+                        <li><strong>World Health Organization (WHO).</strong> (2021). Obesity and overweight fact sheet.</li>
+                        <li><strong>National Institutes of Health (NIH).</strong> Clinical Guidelines on Obesity.</li>
+                        <li><strong>Centers for Disease Control and Prevention (CDC).</strong> Body Mass Index Guidelines.</li>
+                        <li><strong>American College of Sports Medicine.</strong> Exercise Guidelines.</li>
+                        <li><strong>Academy of Nutrition and Dietetics.</strong> Evidence Analysis Library.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Disclaimer Modal -->
@@ -388,6 +632,266 @@
         </div>
     </div>
 
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="script.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load BMI data
+            const bmiData = JSON.parse(sessionStorage.getItem('bmiData'));
+            const height = localStorage.getItem('bmiHeight');
+            const weight = localStorage.getItem('bmiWeight');
+            const bmi = localStorage.getItem('bmiValue');
+            const category = localStorage.getItem('bmiCategory');
+            
+            if (bmi && category) {
+                // Display BMI value
+                document.getElementById('bmi-value').textContent = bmi;
+                document.getElementById('bmi-category').textContent = category;
+                
+                // Update scale marker position
+                updateScaleMarker(parseFloat(bmi));
+                
+                // Update time display
+                const now = new Date();
+                document.getElementById('time-display').textContent = 
+                    now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                // Update category subtitle based on BMI
+                let subtitle = '';
+                if (category === 'Underweight') {
+                    subtitle = 'Below healthy weight range';
+                    document.getElementById('bmi-category').style.color = 'var(--underweight)';
+                } else if (category === 'Normal') {
+                    subtitle = 'Within healthy weight range';
+                    document.getElementById('bmi-category').style.color = 'var(--normal)';
+                } else if (category === 'Overweight') {
+                    subtitle = 'Above healthy weight range';
+                    document.getElementById('bmi-category').style.color = 'var(--overweight)';
+                } else {
+                    subtitle = 'Significant health risk';
+                    document.getElementById('bmi-category').style.color = 'var(--obese)';
+                }
+                document.getElementById('category-subtitle').textContent = subtitle;
+                
+                // Calculate ideal weight range
+                const heightInMeters = parseFloat(height) / 100;
+                const minWeight = (18.5 * heightInMeters * heightInMeters).toFixed(1);
+                const maxWeight = (24.9 * heightInMeters * heightInMeters).toFixed(1);
+                document.getElementById('ideal-weight-min').textContent = `${minWeight} kg`;
+                document.getElementById('ideal-weight-max').textContent = `${maxWeight} kg`;
+                
+                // Calculate statistical details
+                const bmiValue = parseFloat(bmi);
+                const meanBMI = 22.5; // Mean BMI for healthy range
+                const deviation = (bmiValue - meanBMI).toFixed(1);
+                document.getElementById('deviation-value').textContent = deviation;
+                
+                // Calculate percentile (simplified)
+                let percentile = 50;
+                if (bmiValue < 18.5) percentile = 15;
+                else if (bmiValue < 25) percentile = 60;
+                else if (bmiValue < 30) percentile = 80;
+                else percentile = 95;
+                document.getElementById('percentile-value').textContent = `${percentile}%`;
+                
+                // Update comparison text
+                let comparisonText = '';
+                if (category === 'Normal') {
+                    comparisonText = `Your BMI of ${bmi} kg/m² falls within the WHO healthy range (18.5–24.9 kg/m²). You are within the optimal weight range for your height.`;
+                } else if (category === 'Underweight') {
+                    comparisonText = `Your BMI of ${bmi} kg/m² is below the WHO healthy range (18.5–24.9 kg/m²). You may need to gain weight to reach a healthier range.`;
+                } else if (category === 'Overweight') {
+                    comparisonText = `Your BMI of ${bmi} kg/m² is above the WHO healthy range (18.5–24.9 kg/m²). Consider lifestyle adjustments to reach a healthier weight.`;
+                } else {
+                    comparisonText = `Your BMI of ${bmi} kg/m² indicates obesity according to WHO standards. This carries increased health risks that should be addressed.`;
+                }
+                document.getElementById('comparison-text').textContent = comparisonText;
+                
+                // Update health assessment
+                let healthAssessment = '';
+                if (category === 'Normal') {
+                    healthAssessment = 'Based on epidemiological research, your BMI indicates a low risk for weight-related health issues. Continue maintaining a healthy lifestyle.';
+                    updateRiskIndicator('low');
+                } else if (category === 'Underweight') {
+                    healthAssessment = 'Research indicates that being underweight may increase risks for osteoporosis, anemia, and weakened immune function.';
+                    updateRiskIndicator('moderate');
+                } else if (category === 'Overweight') {
+                    healthAssessment = 'Epidemiological studies show increased risks for hypertension, type 2 diabetes, and cardiovascular diseases at this BMI level.';
+                    updateRiskIndicator('moderate');
+                } else {
+                    healthAssessment = 'Clinical research indicates significantly increased risks for numerous health conditions including heart disease, stroke, and certain cancers.';
+                    updateRiskIndicator('high');
+                }
+                document.getElementById('health-assessment').textContent = healthAssessment;
+                
+                // Calculate time estimation
+                const currentWeight = parseFloat(weight);
+                let targetWeight = 0;
+                if (category === 'Underweight') {
+                    // Target: gain to minimum healthy weight
+                    targetWeight = parseFloat(minWeight);
+                    document.getElementById('target-bmi').textContent = '18.5';
+                } else if (category === 'Normal') {
+                    // Target: maintain or optimize to middle of range
+                    targetWeight = parseFloat(weight);
+                    document.getElementById('target-bmi').textContent = '22.5';
+                } else {
+                    // Target: lose to maximum healthy weight
+                    targetWeight = parseFloat(maxWeight);
+                    document.getElementById('target-bmi').textContent = '24.9';
+                }
+                
+                const weightChange = Math.abs(currentWeight - targetWeight).toFixed(1);
+                const weeksNeeded = Math.ceil(weightChange / 0.5);
+                
+                document.getElementById('weight-change').textContent = `${weightChange} kg`;
+                document.getElementById('estimated-time').textContent = `${weeksNeeded} weeks`;
+                document.getElementById('timeline-end-weeks').textContent = `Week ${weeksNeeded}`;
+                
+                // Update timeline progress
+                const progressBar = document.getElementById('timeline-progress');
+                const currentMarker = document.getElementById('current-marker');
+                const goalMarker = document.getElementById('goal-marker');
+                
+                setTimeout(() => {
+                    progressBar.style.width = '100%';
+                    currentMarker.style.left = '0%';
+                    goalMarker.style.left = '100%';
+                }, 500);
+                
+                // Update submission status
+                const consent = bmiData?.consent || false;
+                updateSubmissionStatus(consent);
+                
+            } else {
+                // No BMI data found
+                document.getElementById('bmi-value').textContent = '--.--';
+                document.getElementById('bmi-category').textContent = 'Not Calculated';
+                document.getElementById('category-subtitle').textContent = 'Please calculate your BMI first';
+                document.getElementById('next-btn').classList.add('disabled');
+                document.getElementById('next-btn').href = '#';
+            }
+            
+            // Update scale marker position
+            function updateScaleMarker(bmiValue) {
+                const scaleMarker = document.getElementById('scale-marker');
+                let position = 0;
+                
+                if (bmiValue < 18.5) {
+                    position = (bmiValue / 18.5) * 25;
+                } else if (bmiValue < 25) {
+                    position = 25 + ((bmiValue - 18.5) / 6.5) * 25;
+                } else if (bmiValue < 30) {
+                    position = 50 + ((bmiValue - 25) / 5) * 25;
+                } else if (bmiValue < 40) {
+                    position = 75 + ((bmiValue - 30) / 10) * 25;
+                } else {
+                    position = 95;
+                }
+                
+                scaleMarker.style.left = `${Math.min(position, 95)}%`;
+            }
+            
+            // Update risk indicator
+            function updateRiskIndicator(level) {
+                const riskIndicator = document.getElementById('risk-indicator');
+                const riskLevels = riskIndicator.querySelectorAll('.risk-level');
+                
+                riskLevels.forEach(rl => rl.classList.remove('active'));
+                
+                if (level === 'low') {
+                    riskLevels[0].classList.add('active');
+                } else if (level === 'moderate') {
+                    riskLevels[1].classList.add('active');
+                } else {
+                    riskLevels[2].classList.add('active');
+                }
+            }
+            
+            // Update submission status
+            function updateSubmissionStatus(consent) {
+                const statusDot = document.getElementById('status-dot');
+                const statusText = document.getElementById('status-text');
+                const progressBar = document.getElementById('progress-bar');
+                const submissionMessage = document.getElementById('submission-message');
+                
+                if (consent) {
+                    setTimeout(() => {
+                        progressBar.style.width = '100%';
+                        statusDot.className = 'status-dot success';
+                        statusText.textContent = 'Data submitted successfully';
+                        submissionMessage.textContent = 'Your anonymous BMI data has been contributed to academic research. Thank you for your participation!';
+                    }, 1000);
+                } else {
+                    statusDot.className = 'status-dot';
+                    statusText.textContent = 'Data collection declined';
+                    submissionMessage.textContent = 'You opted out of data contribution. Your data has not been submitted for research purposes.';
+                    progressBar.style.width = '0%';
+                }
+            }
+            
+            // Disclaimer link
+            document.getElementById('disclaimer-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('disclaimer-modal').style.display = 'flex';
+            });
+            
+            // View data button
+            document.getElementById('view-data-btn').addEventListener('click', function() {
+                const bmiData = {
+                    height: localStorage.getItem('bmiHeight'),
+                    weight: localStorage.getItem('bmiWeight'),
+                    bmi: localStorage.getItem('bmiValue'),
+                    category: localStorage.getItem('bmiCategory'),
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                alert(`Submitted Data:\n\nHeight: ${bmiData.height} cm\nWeight: ${bmiData.weight} kg\nBMI: ${bmiData.bmi} kg/m²\nCategory: ${bmiData.category}\nTime: ${bmiData.timestamp}`);
+            });
+            
+            // Export button
+            document.getElementById('export-btn').addEventListener('click', function() {
+                const bmiData = {
+                    height: localStorage.getItem('bmiHeight'),
+                    weight: localStorage.getItem('bmiWeight'),
+                    bmi: localStorage.getItem('bmiValue'),
+                    category: localStorage.getItem('bmiCategory'),
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                const dataStr = JSON.stringify(bmiData, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `bmi-result-${new Date().getTime()}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+                
+                alert('BMI data exported successfully as JSON file!');
+            });
+            
+            // Close modal
+            document.querySelectorAll('.modal-close').forEach(function(closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+            
+            console.log('✅ Result page JavaScript loaded');
+        });
+    </script>
+    
 </body>
 </html>

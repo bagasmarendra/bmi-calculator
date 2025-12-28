@@ -93,7 +93,7 @@ body {
     padding: 0;
 }
 
-.container {
+.container-custom {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
@@ -108,68 +108,131 @@ body {
 ============================================ */
 
 .university-header {
-    background: linear-gradient(135deg, var(--uii-dark-blue) 0%, var(--uii-blue) 100%);
+    background: linear-gradient(135deg, #003d82 0%, #0056b3 100%);
     color: var(--white);
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 4px solid var(--uii-gold);
+    border-bottom: 5px solid #ffd700;
+    position: relative;
+    overflow: hidden;
+}
+
+.university-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+    z-index: 0;
 }
 
 .university-logo-container {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
 }
 
-/* GANTI bagian .university-logo dengan ini: */
-.university-logo {
-    height: 60px;
-    width: auto;
-    /* HAPUS filter ini: */
-    /* filter: brightness(0) invert(1); */
-    
-    /* TAMBAH ini untuk background putih jika logo transparan: */
+.logo-wrapper {
     background: white;
-    padding: 8px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 2px solid #ffd700;
+}
+
+.university-logo {
+    height: 70px;
+    width: auto;
+    display: block;
     transition: transform var(--transition-normal);
 }
 
 .university-logo:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.university-info {
+    color: white;
 }
 
 .university-info h3 {
-    color: var(--white);
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-xs);
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
     font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .university-info p {
     color: rgba(255, 255, 255, 0.9);
-    font-size: var(--font-size-sm);
-    margin: 0;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    font-style: italic;
 }
 
-.academic-info {
-    text-align: right;
+.academic-badge {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+    flex-wrap: wrap;
 }
 
-.course-title {
+.badge-course {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: var(--white);
-    font-size: var(--font-size-md);
-    margin-bottom: var(--spacing-xs);
+    border: 1px solid rgba(255, 215, 0, 0.3);
 }
 
-.instructor {
+.badge-instructor {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 12px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.badge-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.badge-content i {
+    font-size: 2rem;
+    color: #ffd700;
+}
+
+.badge-content h4 {
+    color: white;
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+}
+
+.badge-content p {
     color: rgba(255, 255, 255, 0.9);
-    font-size: var(--font-size-sm);
+    margin: 0;
+    font-size: 0.9rem;
     font-style: italic;
 }
 
@@ -186,16 +249,6 @@ body {
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
-}
-
-.header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--uii-gold) 0%, transparent 100%);
 }
 
 .header-content {
@@ -222,69 +275,42 @@ body {
     font-style: italic;
 }
 
-.navigation {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-md);
-    padding-top: var(--spacing-md);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* PERBAIKAN NAVBAR - HAPUS GARIS AKTIF HIJAU */
+.navbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #3a546d 100%) !important;
+    padding: 0.5rem 0 !important;
 }
 
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: var(--radius-md);
-    color: rgba(255, 255, 255, 0.8);
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    padding: 0.75rem 1.5rem !important;
+    margin: 0 0.25rem;
+    transition: all 0.3s ease;
     font-weight: 500;
-    transition: all var(--transition-fast);
-    text-decoration: none;
+    font-size: 1.125rem;
     position: relative;
-    overflow: hidden;
 }
 
-.nav-link::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 3px;
-    background: var(--uii-gold);
-    transition: all var(--transition-normal);
-    transform: translateX(-50%);
-}
-
-.nav-link:hover {
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: white !important;
     background: rgba(255, 255, 255, 0.1);
-    color: var(--white);
-    transform: translateY(-2px);
+    border-radius: 8px;
 }
 
-.nav-link:hover::before {
-    width: 80%;
+/* HAPUS GARIS AKTIF HIJAU - HANYA BACKGROUND SAJA */
+.navbar-dark .navbar-nav .nav-link.active {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px;
+    font-weight: 600;
+    border-bottom: none !important;
+    box-shadow: none !important;
 }
 
-.nav-link.active {
-    background: var(--white);
-    color: var(--primary-color);
-    box-shadow: var(--shadow-md);
-}
-
-.nav-link.active::before {
-    width: 100%;
-    background: var(--secondary-color);
-}
-
-.nav-link.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.nav-link.disabled:hover {
-    background: transparent;
-    transform: none;
+/* Hapus semua garis dari navbar */
+.navbar-dark .navbar-nav .nav-link::before,
+.navbar-dark .navbar-nav .nav-link.active::before {
+    display: none !important;
 }
 
 /* ============================================
@@ -378,41 +404,31 @@ body {
 }
 
 /* ============================================
-   Form Elements
+   FORM LEBAR PENUH
 ============================================ */
 
 .bmi-form {
-    max-width: 700px;
-    margin: 0 auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.input-card {
+    padding: var(--spacing-xl) !important;
 }
 
 .form-group {
-    margin-bottom: var(--spacing-lg);
-}
-
-.form-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: var(--spacing-xs);
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    font-size: var(--font-size-lg);
-}
-
-.required {
-    color: var(--danger-color);
-    font-weight: bold;
+    margin-bottom: var(--spacing-xl) !important;
 }
 
 .input-container {
-    display: flex;
+    width: 100% !important;
     border: 2px solid var(--medium-gray);
     border-radius: var(--radius-md);
     overflow: hidden;
     transition: all var(--transition-fast);
     background: var(--white);
+    display: flex;
 }
 
 .input-container:focus-within {
@@ -422,10 +438,11 @@ body {
 }
 
 .input-container input {
+    width: 100% !important;
     flex: 1;
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg) !important;
     border: none;
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-lg) !important;
     font-family: var(--font-primary);
     color: var(--text-color);
     background: transparent;
@@ -437,48 +454,28 @@ body {
 
 .input-unit {
     background: var(--uii-light-blue);
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-xl) !important;
     color: var(--uii-dark-blue);
     font-weight: 600;
-    min-width: 80px;
+    min-width: 100px !important;
     text-align: center;
     border-left: 1px solid var(--medium-gray);
+    font-size: var(--font-size-lg) !important;
 }
 
 .input-hint {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md) !important;
     color: var(--dark-gray);
-    margin-top: var(--spacing-xs);
+    margin-top: var(--spacing-sm) !important;
     font-style: italic;
 }
 
 .consent-section {
     background: var(--uii-light-blue);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl) !important;
     border-radius: var(--radius-lg);
-    margin: var(--spacing-xl) 0;
+    margin: var(--spacing-xl) 0 !important;
     border: 2px solid var(--uii-blue);
-}
-
-.checkbox-group {
-    display: flex;
-    gap: var(--spacing-md);
-}
-
-.checkbox-group input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    margin-top: 4px;
-    cursor: pointer;
-    accent-color: var(--uii-blue);
-}
-
-.consent-label {
-    flex: 1;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
 }
 
 .consent-header {
@@ -487,20 +484,21 @@ body {
     gap: var(--spacing-sm);
     font-weight: 600;
     color: var(--uii-dark-blue);
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl) !important;
+    margin-bottom: var(--spacing-md) !important;
 }
 
 .consent-description {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-md) !important;
     color: var(--text-light);
     font-weight: normal;
-    line-height: 1.6;
+    line-height: 1.7 !important;
 }
 
 .form-actions {
     display: flex;
     gap: var(--spacing-md);
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-xl) !important;
     justify-content: center;
 }
 
@@ -529,6 +527,18 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Pastikan card form sama lebar dengan card di bawahnya */
+.input-card, .info-card, .scale-card {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.row.justify-content-center .col-lg-8 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
 }
 
 /* ============================================
@@ -1624,115 +1634,40 @@ body {
 }
 
 /* ============================================
-   Footer
+   FOOTER VERTIKAL (Seperti Gambar)
 ============================================ */
 
 .footer {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
     color: var(--white);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg) var(--spacing-md);
     margin-top: auto;
     border-top: 4px solid var(--uii-gold);
 }
 
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
-}
-
-.footer-section {
-    padding: var(--spacing-lg);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform var(--transition-normal);
-}
-
-.footer-section:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.footer-section h4 {
-    color: var(--white);
-    margin-bottom: var(--spacing-lg);
+.footer-vertical {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: var(--spacing-sm);
-    font-size: var(--font-size-lg);
+    text-align: center;
+    gap: var(--spacing-md);
 }
 
-.footer-section h4 i {
-    color: var(--uii-gold);
-}
-
-.footer-section p {
+.footer-copyright {
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: var(--spacing-sm);
-    line-height: 1.6;
 }
 
-.student-info {
-    margin-top: var(--spacing-lg);
-    padding-top: var(--spacing-md);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.student-info p {
+.footer-copyright p {
     margin-bottom: var(--spacing-xs);
-    font-size: var(--font-size-sm);
-}
-
-.student-info strong {
-    color: var(--uii-gold);
-}
-
-.ethics-list, .analysis-list, .output-list {
-    list-style: none;
-    padding-left: 0;
-    margin-top: var(--spacing-md);
-}
-
-.ethics-list li, .analysis-list li, .output-list li {
-    padding: var(--spacing-xs) 0;
-    color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-}
-
-.ethics-list li:before, .analysis-list li:before, .output-list li:before {
-    content: "✓";
-    color: var(--uii-gold);
-    font-weight: bold;
-}
-
-.footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: var(--spacing-xl);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    flex-wrap: wrap;
-    gap: var(--spacing-lg);
-}
-
-.copyright {
-    flex: 1;
-    min-width: 300px;
-}
-
-.copyright p {
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-md);
 }
 
 .page-indicator {
-    font-size: var(--font-size-sm);
     color: var(--uii-gold);
     font-weight: 600;
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-xs);
 }
 
 .research-statement {
@@ -1742,10 +1677,19 @@ body {
     margin-top: var(--spacing-xs);
 }
 
-.footer-links {
+.footer-links-vertical {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+}
+
+.footer-link-group {
     display: flex;
-    gap: var(--spacing-lg);
+    justify-content: center;
+    gap: var(--spacing-xl);
     flex-wrap: wrap;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: var(--spacing-md);
+    margin-top: var(--spacing-md);
 }
 
 .footer-link {
@@ -1754,39 +1698,17 @@ body {
     gap: var(--spacing-sm);
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-md);
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
     font-size: var(--font-size-sm);
+    white-space: nowrap;
 }
 
 .footer-link:hover {
     background: rgba(255, 255, 255, 0.1);
     color: var(--white);
     transform: translateY(-2px);
-}
-
-.academic-acknowledgment {
-    margin-top: var(--spacing-xl);
-    padding: var(--spacing-lg);
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: var(--radius-lg);
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.academic-acknowledgment p {
-    color: rgba(255, 255, 255, 0.9);
-    font-style: italic;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
-}
-
-.academic-acknowledgment i {
-    color: var(--uii-gold);
 }
 
 /* ============================================
@@ -1904,7 +1826,7 @@ body {
 ============================================ */
 
 @media (max-width: 992px) {
-    .container {
+    .container-custom {
         margin: 0;
         box-shadow: none;
     }
@@ -1913,10 +1835,29 @@ body {
         flex-direction: column;
         text-align: center;
         gap: var(--spacing-md);
+        padding: var(--spacing-lg);
     }
     
-    .academic-info {
+    .university-logo-container {
+        flex-direction: column;
         text-align: center;
+    }
+    
+    .logo-wrapper {
+        align-self: center;
+    }
+    
+    .academic-badge {
+        justify-content: center;
+    }
+    
+    .project-badge {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .badge-content {
+        justify-content: center;
     }
     
     .header h1 {
@@ -1938,6 +1879,10 @@ body {
     .timeline-details {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .footer-link-group {
+        gap: var(--spacing-lg);
+    }
 }
 
 @media (max-width: 768px) {
@@ -1947,16 +1892,6 @@ body {
     
     .header {
         padding: var(--spacing-md);
-    }
-    
-    .navigation {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--spacing-sm);
-    }
-    
-    .nav-link {
-        justify-content: center;
     }
     
     .form-actions, .action-buttons {
@@ -1984,22 +1919,18 @@ body {
         min-height: 100px;
     }
     
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-bottom {
+    .footer-link-group {
         flex-direction: column;
-        text-align: center;
         gap: var(--spacing-md);
-    }
-    
-    .footer-links {
-        justify-content: center;
     }
     
     .timeline-details {
         grid-template-columns: 1fr;
+    }
+    
+    .academic-badge {
+        flex-direction: column;
+        gap: var(--spacing-xs);
     }
 }
 
@@ -2017,11 +1948,11 @@ body {
     }
     
     .university-logo {
-        height: 50px;
+        height: 60px;
     }
     
     .university-info h3 {
-        font-size: var(--font-size-md);
+        font-size: 1.2rem;
     }
     
     .bmi-number {
@@ -2065,7 +1996,7 @@ body {
         color: black;
     }
     
-    .container {
+    .container-custom {
         max-width: none;
         box-shadow: none;
     }
@@ -2095,17 +2026,13 @@ body {
         page-break-inside: avoid;
     }
     
-    .footer-section, .academic-acknowledgment {
-        display: none;
-    }
-    
-    .footer-bottom {
+    .footer-vertical {
         border-top: 3px solid black;
         color: black;
         padding: 20pt 0;
     }
     
-    .footer-bottom p {
+    .footer-vertical p {
         color: black;
     }
 }
@@ -2160,179 +2087,77 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+/* ===============================
+   Academic Footer Section
+================================ */
 
-/* ============================================
-   Enhanced University Header
-============================================ */
-
-.university-header {
-    background: linear-gradient(135deg, #003d82 0%, #0056b3 100%);
-    color: var(--white);
-    padding: var(--spacing-md);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 5px solid #ffd700;
-    position: relative;
-    overflow: hidden;
+.academic-footer-section {
+    background: linear-gradient(180deg, #2c3e50, #34495e);
+    padding: 60px 20px 40px;
+    color: #ecf0f1;
 }
 
-.university-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-    z-index: 0;
+.academic-footer-container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
-.university-logo-container {
+.academic-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 30px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.card-title {
     display: flex;
     align-items: center;
-    gap: var(--spacing-lg);
-    position: relative;
-    z-index: 1;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.logo-wrapper {
-    background: white;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 2px solid #ffd700;
+.card-title i {
+    font-size: 22px;
+    color: #f1c40f;
 }
 
-.university-logo {
-    height: 70px;
-    width: auto;
-    display: block;
-}
-
-.university-info {
-    color: white;
-}
-
-.university-info h3 {
-    color: white;
-    font-size: 1.4rem;
-    margin-bottom: 5px;
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.university-info p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
-    margin-bottom: 8px;
-    font-style: italic;
-}
-
-.academic-badge {
-    display: flex;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-sm);
-    flex-wrap: wrap;
-}
-
-.badge-course {
-    background: rgba(255, 215, 0, 0.2);
-    color: #ffd700;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-}
-
-.badge-instructor {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.project-badge {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 12px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-    z-index: 1;
-}
-
-.badge-content {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-}
-
-.badge-content i {
-    font-size: 2rem;
-    color: #ffd700;
-}
-
-.badge-content h4 {
-    color: white;
-    margin: 0 0 5px 0;
-    font-size: 1.1rem;
-}
-
-.badge-content p {
-    color: rgba(255, 255, 255, 0.9);
+.card-title h4 {
     margin: 0;
-    font-size: 0.9rem;
-    font-style: italic;
+    font-weight: 600;
 }
 
-/* Responsive design for header */
-@media (max-width: 992px) {
-    .university-header {
-        flex-direction: column;
-        gap: var(--spacing-md);
-        text-align: center;
-        padding: var(--spacing-lg);
-    }
-    
-    .university-logo-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .logo-wrapper {
-        align-self: center;
-    }
-    
-    .academic-badge {
-        justify-content: center;
-    }
-    
-    .project-badge {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .badge-content {
-        justify-content: center;
-    }
+.academic-card p {
+    font-size: 14px;
+    line-height: 1.7;
 }
 
-@media (max-width: 768px) {
-    .university-info h3 {
-        font-size: 1.2rem;
-    }
-    
-    .university-logo {
-        height: 60px;
-    }
-    
-    .academic-badge {
-        flex-direction: column;
-        gap: var(--spacing-xs);
-    }
+.academic-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
+.academic-card ul li {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.highlight {
+    margin-top: 15px;
+    color: #f1c40f;
+}
+
+/* Ethics list */
+.ethics-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ethics-list i {
+    color: #f1c40f;
+}

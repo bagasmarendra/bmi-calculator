@@ -5,25 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator - Input | Academic Health Tool</title>
     <meta name="description" content="Enter your measurements to calculate your Body Mass Index (BMI)">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- CSS Utama -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Bootstrap Styles */
+        .bootstrap-enhanced {
+            --bs-primary: #0056b3;
+            --bs-secondary: #6c757d;
+            --bs-success: #27ae60;
+            --bs-warning: #f39c12;
+            --bs-danger: #e74c3c;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%) !important;
+            border-color: #16a085 !important;
+            color: white !important;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(22, 160, 133, 0.3) !important;
+        }
+        
+        .btn-secondary {
+            background: white !important;
+            color: #2c3e50 !important;
+            border: 2px solid #e9ecef !important;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa !important;
+            border-color: #dee2e6 !important;
+        }
+        
+        /* Form controls */
+        .form-control:focus {
+            border-color: #16a085 !important;
+            box-shadow: 0 0 0 0.25rem rgba(22, 160, 133, 0.25) !important;
+        }
+        
+        /* Alert styling */
+        .alert {
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+        }
+        
+        .alert-info {
+            background: linear-gradient(135deg, #e6f2ff 0%, #d1e7ff 100%);
+            border: 2px solid #0056b3;
+            color: #003d82;
+        }
+        
+        /* Fix grid */
+        .container-custom .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        
+        .container-custom [class*="col-"] {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
+<body class="bootstrap-enhanced">
+    <div class="container-custom">
         <!-- University Header -->
         <div class="university-header">
             <div class="university-logo-container">
-                <!-- Logo UII dari website resmi -->
-                <!-- Menjadi ini: -->
-<div class="logo-wrapper">
-    <img src="assets/images.png" 
-         alt="Universitas Islam Indonesia" 
-         class="university-logo"
-         onerror="this.onerror=null; this.src='assets/logo-backup.png'">
-</div>
+                <div class="logo-wrapper">
+                    <img src="assets/images.png" 
+                         alt="Universitas Islam Indonesia" 
+                         class="university-logo"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/70x70/0056b3/ffffff?text=UII'">
+                </div>
                 <div class="university-info">
                     <h3>UNIVERSITAS ISLAM INDONESIA</h3>
                     <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
@@ -45,27 +124,42 @@
             </div>
         </div>
 
-        <!-- Main Header -->
+        <!-- Main Header dengan Navigation -->
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-heartbeat"></i> Academic BMI Calculator</h1>
                 <p class="subtitle">A Research-Oriented Health Assessment Tool</p>
             </div>
-            <nav class="navigation">
-                <a href="index.html" class="nav-link active">
-                    <i class="fas fa-edit"></i> Input Data
-                </a>
-                <a href="#" class="nav-link disabled">
-                    <i class="fas fa-chart-line"></i> Results
-                </a>
-                <a href="#" class="nav-link disabled">
-                    <i class="fas fa-apple-alt"></i> Suggestions
-                </a>
+            
+            <!-- Bootstrap Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">
+                                    <i class="fas fa-edit"></i> Input Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="result-link">
+                                    <i class="fas fa-chart-line"></i> Results
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" id="suggestions-link">
+                                    <i class="fas fa-apple-alt"></i> Suggestions
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
         </header>
-
-        <!-- Main Content (sisanya tetap sama) -->
-        <!-- ... -->
 
         <!-- Main Content -->
         <main class="main-content">
@@ -74,6 +168,7 @@
                 <p class="page-description">Please provide your height and weight for accurate BMI calculation. All data is processed anonymously for academic research purposes.</p>
             </div>
 
+            <!-- Form Lebar Penuh -->
             <div class="input-card card">
                 <div class="card-header">
                     <h3><i class="fas fa-user-circle"></i> Personal Measurements</h3>
@@ -81,7 +176,6 @@
                 </div>
 
                 <form id="bmi-form" class="bmi-form">
-                    <!-- Height Input -->
                     <div class="form-group">
                         <label for="height" class="form-label">
                             <i class="fas fa-ruler-vertical"></i> Height (centimeters)
@@ -95,8 +189,9 @@
                                 min="50" 
                                 max="250" 
                                 step="0.1" 
-                                placeholder="Enter height in centimeters"
+                                placeholder="Enter height in centimeters (e.g., 170.5)"
                                 required
+                                class="form-control"
                             >
                             <span class="input-unit">cm</span>
                         </div>
@@ -105,7 +200,6 @@
                         </div>
                     </div>
 
-                    <!-- Weight Input -->
                     <div class="form-group">
                         <label for="weight" class="form-label">
                             <i class="fas fa-weight"></i> Weight (kilograms)
@@ -119,8 +213,9 @@
                                 min="30" 
                                 max="200" 
                                 step="0.1" 
-                                placeholder="Enter weight in kilograms"
+                                placeholder="Enter weight in kilograms (e.g., 65.2)"
                                 required
+                                class="form-control"
                             >
                             <span class="input-unit">kg</span>
                         </div>
@@ -129,11 +224,10 @@
                         </div>
                     </div>
 
-                    <!-- Data Consent -->
-                    <div class="consent-section">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="data-consent" checked>
-                            <label for="data-consent" class="consent-label">
+                    <div class="consent-section alert alert-info">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="data-consent" checked>
+                            <label class="form-check-label consent-label" for="data-consent">
                                 <div class="consent-header">
                                     <i class="fas fa-database"></i> 
                                     <span>Research Data Contribution</span>
@@ -147,149 +241,455 @@
                         </div>
                     </div>
 
-                    <!-- Form Actions -->
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btn-large">
-                            <i class="fas fa-calculator"></i> Calculate BMI
-                            <span class="btn-subtext">Proceed to Detailed Analysis</span>
-                        </button>
-                        <button type="button" id="reset-btn" class="btn btn-secondary">
-                            <i class="fas fa-redo"></i> Clear Form
-                        </button>
+                    <div class="row form-actions">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <button type="submit" class="btn btn-primary btn-large w-100">
+                                <i class="fas fa-calculator"></i> Calculate BMI
+                                <span class="btn-subtext d-block">Proceed to Detailed Analysis</span>
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="reset-btn" class="btn btn-secondary w-100">
+                                <i class="fas fa-redo"></i> Clear Form
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Validation Messages -->
-                    <div id="error-message" class="error-message"></div>
+                    <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                 </form>
             </div>
 
-            <!-- Information Card -->
+            <!-- Academic Tool Overview -->
             <div class="info-card card">
-                <div class="info-header">
-                    <i class="fas fa-info-circle"></i>
-                    <h3>Academic Tool Overview</h3>
-                </div>
-                <div class="info-content">
-                    <p><strong>Research Purpose:</strong> This tool is designed for educational and academic research in health informatics and data analysis.</p>
-                    <p><strong>Methodology:</strong> Body Mass Index (BMI) is calculated using the standard formula: weight (kg) / [height (m)]²</p>
-                    <p><strong>Analysis Process:</strong></p>
-                    <ol class="process-steps">
-                        <li><strong>Statistical Analysis:</strong> BMI calculation with WHO classification</li>
-                        <li><strong>Data Interpretation:</strong> Detailed health assessment with academic context</li>
-                        <li><strong>Personalized Guidance:</strong> Evidence-based suggestions for health improvement</li>
-                    </ol>
-                    <p><strong>Ethical Compliance:</strong> This tool follows research ethics guidelines for data collection and privacy protection.</p>
+                <div class="card-body">
+                    <div class="info-header">
+                        <i class="fas fa-info-circle"></i>
+                        <h3>Academic Tool Overview</h3>
+                    </div>
+                    <div class="info-content">
+                        <p><strong>Research Purpose:</strong> This tool is designed for educational and academic research in health informatics and data analysis.</p>
+                        <p><strong>Methodology:</strong> Body Mass Index (BMI) is calculated using the standard formula: weight (kg) / [height (m)]²</p>
+                        <p><strong>Analysis Process:</strong></p>
+                        <ol class="process-steps">
+                            <li><strong>Statistical Analysis:</strong> BMI calculation with WHO classification</li>
+                            <li><strong>Data Interpretation:</strong> Detailed health assessment with academic context</li>
+                            <li><strong>Personalized Guidance:</strong> Evidence-based suggestions for health improvement</li>
+                        </ol>
+                        <p><strong>Ethical Compliance:</strong> This tool follows research ethics guidelines for data collection and privacy protection.</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- BMI Scale Preview -->
+            <!-- WHO BMI Classification -->
             <div class="scale-card card">
-                <div class="scale-header">
-                    <h3><i class="fas fa-chart-bar"></i> WHO BMI Classification</h3>
-                    <p class="card-subtitle">World Health Organization Standards</p>
+                <div class="card-body">
+                    <div class="scale-header">
+                        <h3><i class="fas fa-chart-bar"></i> WHO BMI Classification</h3>
+                        <p class="card-subtitle">World Health Organization Standards</p>
+                    </div>
+                    <div class="bmi-scale-preview">
+                        <div class="scale-item underweight">
+                            <span class="scale-label">Underweight</span>
+                            <span class="scale-range">&lt; 18.5 kg/m²</span>
+                            <span class="scale-description">Below healthy range</span>
+                        </div>
+                        <div class="scale-item normal">
+                            <span class="scale-label">Normal</span>
+                            <span class="scale-range">18.5 – 24.9 kg/m²</span>
+                            <span class="scale-description">Healthy weight</span>
+                        </div>
+                        <div class="scale-item overweight">
+                            <span class="scale-label">Overweight</span>
+                            <span class="scale-range">25 – 29.9 kg/m²</span>
+                            <span class="scale-description">Above healthy range</span>
+                        </div>
+                        <div class="scale-item obese">
+                            <span class="scale-label">Obese</span>
+                            <span class="scale-range">≥ 30 kg/m²</span>
+                            <span class="scale-description">Health risk</span>
+                        </div>
+                    </div>
+                    <p class="scale-note">Source: World Health Organization (WHO) - International Classification</p>
                 </div>
-                <div class="bmi-scale-preview">
-                    <div class="scale-item underweight">
-                        <span class="scale-label">Underweight</span>
-                        <span class="scale-range">&lt; 18.5 kg/m²</span>
-                        <span class="scale-description">Below healthy range</span>
-                    </div>
-                    <div class="scale-item normal">
-                        <span class="scale-label">Normal</span>
-                        <span class="scale-range">18.5 – 24.9 kg/m²</span>
-                        <span class="scale-description">Healthy weight</span>
-                    </div>
-                    <div class="scale-item overweight">
-                        <span class="scale-label">Overweight</span>
-                        <span class="scale-range">25 – 29.9 kg/m²</span>
-                        <span class="scale-description">Above healthy range</span>
-                    </div>
-                    <div class="scale-item obese">
-                        <span class="scale-label">Obese</span>
-                        <span class="scale-range">≥ 30 kg/m²</span>
-                        <span class="scale-description">Health risk</span>
-                    </div>
-                </div>
-                <p class="scale-note">Source: World Health Organization (WHO) - International Classification</p>
             </div>
-        </main>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4><i class="fas fa-graduation-cap"></i> Academic Project</h4>
-                    <p>This tool is developed as part of academic research in Health Informatics and Data Analysis.</p>
-                    <div class="student-info">
-                        <p><strong>Students:</strong> Bagaskara Putera Marendra & M. Arif Al-Ghifary</p>
-                    
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> Course Information</h4>
-                    <p><strong>Course:</strong> Sistem Informasi Manajemen</p>
-                    <p><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</p>
-                    <p><strong>Department:</strong> Information Systems</p>
-                    <p><strong>University:</strong> Universitas Islam Indonesia</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-shield-alt"></i> Research Ethics</h4>
-                    <p>This research complies with academic ethics standards:</p>
-                    <ul class="ethics-list">
-                        <li>✓ Anonymous data collection</li>
-                        <li>✓ Voluntary participation</li>
-                        <li>✓ Secure data storage</li>
-                        <li>✓ Academic use only</li>
-                    </ul>
-                </div>
+        </main>
+<!-- Academic Footer Section -->
+<section class="academic-footer-section">
+    <div class="academic-footer-container">
+
+        <!-- Academic Project -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>Academic Project</h4>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
+            <p>
+                This tool is developed as part of academic research in
+                Health Informatics and Data Analysis.
+            </p>
+            <p class="highlight">
+                <strong>Students:</strong><br>
+                Bagaskara Putera Marendra<br>
+                M. Arif Al-Ghifary
+            </p>
+        </div>
+
+        <!-- Course Information -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-book"></i>
+                <h4>Course Information</h4>
+            </div>
+            <ul>
+                <li><strong>Course:</strong> Sistem Informasi Manajemen</li>
+                <li><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</li>
+                <li><strong>Department:</strong> Information Systems</li>
+                <li><strong>University:</strong> Universitas Islam Indonesia</li>
+            </ul>
+        </div>
+
+        <!-- Research Ethics -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Research Ethics</h4>
+            </div>
+            <ul class="ethics-list">
+                <li><i class="fas fa-check"></i> Anonymous data collection</li>
+                <li><i class="fas fa-check"></i> Voluntary participation</li>
+                <li><i class="fas fa-check"></i> Secure data storage</li>
+                <li><i class="fas fa-check"></i> Academic use only</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+        <!-- Footer Vertikal -->
+        <footer class="footer">
+            <div class="footer-vertical">
+                <div class="footer-copyright">
                     <p>© 2025 Academic BMI Calculator - Universitas Islam Indonesia</p>
                     <p class="page-indicator">Page 1 of 3 | Data Input Module</p>
                 </div>
-                <div class="footer-links">
-                    <a href="#" class="footer-link" id="privacy-link">
-                        <i class="fas fa-user-shield"></i> Privacy Policy
-                    </a>
-                    <a href="#" class="footer-link" id="methodology-link">
-                        <i class="fas fa-flask"></i> Methodology
-                    </a>
-                    <a href="#" class="footer-link" id="references-link">
-                        <i class="fas fa-book-open"></i> References
-                    </a>
+                
+                <div class="footer-links-vertical">
+                    <div class="footer-link-group">
+                        <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#privacyModal">
+                            <i class="fas fa-user-shield"></i> Privacy Policy
+                        </a>
+                        <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#methodologyModal">
+                            <i class="fas fa-flask"></i> Methodology
+                        </a>
+                        <a href="#" class="footer-link" data-bs-toggle="modal" data-bs-target="#referencesModal">
+                            <i class="fas fa-book-open"></i> References
+                        </a>
+                    </div>
                 </div>
             </div>
         </footer>
     </div>
 
-    <!-- Privacy Modal -->
-    <div id="privacy-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h3><i class="fas fa-user-shield"></i> Data Privacy & Research Ethics</h3>
-            <div class="modal-body">
-                <h4>Data Collection Protocol</h4>
-                <p>This research tool collects only height, weight, and calculated BMI values. No personal identifiers (name, email, IP address, location) are collected or stored.</p>
-                
-                <h4>Research Purpose</h4>
-                <p>Data is used solely for aggregate statistical analysis in academic research on population health metrics and BMI distribution patterns.</p>
-                
-                <h4>Consent Framework</h4>
-                <p>Participation is voluntary with explicit opt-in consent. Users can choose not to contribute data while still using the calculation features.</p>
-                
-                <h4>Data Security</h4>
-                <p>All data is encrypted and stored in secure, access-controlled databases. Data retention follows academic research guidelines.</p>
-                
-                <h4>Ethical Compliance</h4>
-                <p>This research follows UII Research Ethics Committee guidelines and international standards for educational research.</p>
+    <!-- Bootstrap Modals -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-shield"></i> Data Privacy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Privacy Policy for Academic BMI Calculator</h6>
+                    <p>This tool is designed for academic research purposes and follows strict data privacy protocols:</p>
+                    <ul>
+                        <li><strong>Anonymous Data Collection:</strong> No personal identifiers are collected</li>
+                        <li><strong>Voluntary Participation:</strong> Users can opt-out of data contribution</li>
+                        <li><strong>Secure Storage:</strong> Data is stored securely with encryption</li>
+                        <li><strong>Academic Use Only:</strong> Data is used exclusively for educational research</li>
+                        <li><strong>Data Retention:</strong> Data is retained for research period only</li>
+                    </ul>
+                    <p><strong>Compliance:</strong> This tool complies with UII Research Ethics Committee guidelines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="methodologyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-flask"></i> Methodology</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Research Methodology</h6>
+                    <p><strong>BMI Calculation Formula:</strong> BMI = weight (kg) / [height (m)]²</p>
+                    <p><strong>Classification Standard:</strong> WHO International Classification (2000)</p>
+                    <p><strong>Data Analysis Methods:</strong></p>
+                    <ul>
+                        <li>Statistical analysis of BMI distribution</li>
+                        <li>Comparative analysis with WHO standards</li>
+                        <li>Health risk assessment based on epidemiological data</li>
+                        <li>Time estimation modeling for weight management</li>
+                    </ul>
+                    <p><strong>Research Tools:</strong> HTML5, CSS3, JavaScript, Bootstrap 5, Google Apps Script</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="referencesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-book-open"></i> References</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Academic References</h6>
+                    <ul>
+                        <li><strong>World Health Organization (WHO).</strong> (2021). Obesity and overweight fact sheet.</li>
+                        <li><strong>National Institutes of Health (NIH).</strong> Clinical Guidelines on Obesity.</li>
+                        <li><strong>Centers for Disease Control and Prevention (CDC).</strong> Body Mass Index Guidelines.</li>
+                        <li><strong>American College of Sports Medicine.</strong> Exercise Guidelines.</li>
+                        <li><strong>Academy of Nutrition and Dietetics.</strong> Evidence Analysis Library.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript untuk BMI Calculator -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('bmi-form');
+            const heightInput = document.getElementById('height');
+            const weightInput = document.getElementById('weight');
+            const errorDiv = document.getElementById('error-message');
+            const resultLink = document.getElementById('result-link');
+            const suggestionsLink = document.getElementById('suggestions-link');
+            
+            // Cek apakah sudah ada data BMI sebelumnya
+            const existingBMI = localStorage.getItem('bmiValue');
+            if (existingBMI) {
+                resultLink.href = 'result.html';
+                suggestionsLink.href = 'suggestion.html';
+            } else {
+                resultLink.href = '#';
+                suggestionsLink.href = '#';
+            }
+            
+            // Event listener untuk form submit
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('📋 Form submitted');
+                
+                // Dapatkan nilai dari input
+                const height = parseFloat(heightInput.value);
+                const weight = parseFloat(weightInput.value);
+                const consent = document.getElementById('data-consent').checked;
+                
+                console.log('Input values:', { height, weight, consent });
+                
+                // Validasi input
+                if (!height || isNaN(height)) {
+                    showError('Please enter a valid height.');
+                    heightInput.focus();
+                    return;
+                }
+                
+                if (!weight || isNaN(weight)) {
+                    showError('Please enter a valid weight.');
+                    weightInput.focus();
+                    return;
+                }
+                
+                if (height < 50 || height > 250) {
+                    showError('Height must be between 50-250 cm.');
+                    heightInput.focus();
+                    return;
+                }
+                
+                if (weight < 30 || weight > 200) {
+                    showError('Weight must be between 30-200 kg.');
+                    weightInput.focus();
+                    return;
+                }
+                
+                // Hitung BMI
+                const heightInMeters = height / 100;
+                const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+                
+                // Tentukan kategori
+                let category = '';
+                let categoryKey = '';
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                    categoryKey = 'underweight';
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    category = 'Normal';
+                    categoryKey = 'normal';
+                } else if (bmi >= 25 && bmi < 30) {
+                    category = 'Overweight';
+                    categoryKey = 'overweight';
+                } else {
+                    category = 'Obese';
+                    categoryKey = 'obese';
+                }
+                
+                console.log('BMI calculated:', { bmi, category, categoryKey });
+                
+                // Simpan ke sessionStorage untuk script.js
+                const userData = {
+                    height: height,
+                    weight: weight,
+                    bmi: parseFloat(bmi),
+                    category: categoryKey,
+                    consent: consent,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Simpan ke sessionStorage (untuk script.js)
+                sessionStorage.setItem('bmiData', JSON.stringify(userData));
+                console.log('Data saved to sessionStorage:', userData);
+                
+                // Simpan juga ke localStorage untuk backup
+                localStorage.setItem('bmiHeight', height);
+                localStorage.setItem('bmiWeight', weight);
+                localStorage.setItem('bmiValue', bmi);
+                localStorage.setItem('bmiCategory', category);
+                localStorage.setItem('bmiCalculated', 'true');
+                
+                // Update link navbar
+                resultLink.href = 'result.html';
+                suggestionsLink.href = 'suggestion.html';
+                
+                // Tampilkan pesan sukses
+                showSuccess(`BMI calculated: ${bmi} (${category}). Redirecting...`);
+                
+                // Simpan ke Google Sheets jika consent diberikan
+                if (consent) {
+                    console.log('🔄 Submitting to Google Sheets...');
+                    try {
+                        // Persiapkan data untuk Google Sheets
+                        const payload = {
+                            timestamp: new Date().toLocaleString('id-ID'),
+                            height: height.toFixed(1),
+                            weight: weight.toFixed(1),
+                            bmi: bmi,
+                            category: category,
+                            note: `BMI: ${bmi} | Height: ${height}cm | Weight: ${weight}kg`,
+                            method: 'Academic BMI Calculator Web App'
+                        };
+                        
+                        // Submit menggunakan fetch
+                        await submitToGoogleSheets(payload);
+                        
+                    } catch (error) {
+                        console.error('❌ Error submitting to Google Sheets:', error);
+                        // Tetap lanjut meskipun gagal submit
+                    }
+                } else {
+                    console.log('ℹ️ User opted out of data collection');
+                }
+                
+                // Redirect ke result.html setelah 2 detik
+                setTimeout(function() {
+                    console.log('🔄 Redirecting to result.html...');
+                    window.location.href = 'result.html';
+                }, 2000);
+            });
+            
+            // Reset button
+            document.getElementById('reset-btn').addEventListener('click', function() {
+                form.reset();
+                errorDiv.style.display = 'none';
+                document.getElementById('data-consent').checked = true;
+                console.log('🔄 Form reset');
+            });
+            
+            // Fungsi untuk menampilkan error
+            function showError(message) {
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+                errorDiv.style.display = 'block';
+                errorDiv.className = 'alert alert-danger mt-3';
+                console.error('Error:', message);
+                
+                // Auto hide setelah 5 detik
+                setTimeout(function() {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Fungsi untuk menampilkan success
+            function showSuccess(message) {
+                errorDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                errorDiv.className = 'alert alert-success mt-3';
+                errorDiv.style.display = 'block';
+                console.log('Success:', message);
+            }
+            
+            // Fungsi untuk submit ke Google Sheets
+            async function submitToGoogleSheets(payload) {
+                const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHg0v9WS6wniLzpBD5IPLfze4EBi6O_AL_vQTYcIWLlGx3oYYvjpgKNMtXA3IopI5tFQ/exec';
+                
+                try {
+                    const params = new URLSearchParams();
+                    params.append('timestamp', payload.timestamp);
+                    params.append('height', payload.height);
+                    params.append('weight', payload.weight);
+                    params.append('bmi', payload.bmi);
+                    params.append('category', payload.category);
+                    params.append('note', payload.note);
+                    params.append('method', payload.method);
+                    
+                    const url = `${GOOGLE_APPS_SCRIPT_URL}?${params.toString()}`;
+                    
+                    // Gunakan fetch dengan no-cors mode
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        mode: 'no-cors',
+                        cache: 'no-cache'
+                    });
+                    
+                    console.log('✅ Data submitted to Google Sheets');
+                    return true;
+                    
+                } catch (error) {
+                    console.error('❌ Error submitting to Google Sheets:', error);
+                    // Simpan ke localStorage sebagai backup
+                    saveToLocalStorage(payload);
+                    return false;
+                }
+            }
+            
+            // Fungsi untuk menyimpan ke localStorage jika gagal
+            function saveToLocalStorage(data) {
+                try {
+                    const pending = JSON.parse(localStorage.getItem('bmi_pending_submissions') || '[]');
+                    pending.push({
+                        ...data,
+                        savedAt: new Date().toISOString(),
+                        attempts: 0,
+                        id: Date.now() + Math.random().toString(36).substr(2, 9)
+                    });
+                    
+                    localStorage.setItem('bmi_pending_submissions', JSON.stringify(pending));
+                    console.log('💾 Saved to localStorage. Total pending submissions:', pending.length);
+                    
+                } catch (error) {
+                    console.error('LocalStorage error:', error);
+                }
+            }
+            
+            // Test console
+            console.log('✅ Index page JavaScript loaded');
+        });
+    </script>
+    
 </body>
 </html>

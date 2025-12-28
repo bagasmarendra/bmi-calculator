@@ -5,60 +5,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator - Suggestions | Academic Health Tool</title>
     <meta name="description" content="Personalized dietary and lifestyle suggestions based on your BMI">
+    
+    <!-- Bootstrap 5 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- CSS Utama Anda -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-       <!-- University Header (sama untuk semua halaman) -->
-<div class="university-header">
-    <div class="university-logo-container">
-        <!-- Logo UII dari website resmi -->
-        <div class="logo-wrapper">
-    <img src="assets/images.png" 
-         alt="Universitas Islam Indonesia" 
-         class="university-logo"
-         onerror="this.onerror=null; this.src='assets/logo-backup.png'">
-</div>
-        <div class="university-info">
-            <h3>UNIVERSITAS ISLAM INDONESIA</h3>
-            <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
-            <div class="academic-badge">
-                <span class="badge-course">Sistem Informasi Manajemen</span>
-                <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
-            </div>
-        </div>
-    </div>
     
-    <div class="project-badge">
-        <div class="badge-content">
-            <i class="fas fa-graduation-cap"></i>
-            <div>
-                <h4>Academic BMI Calculator</h4>
-                <p>A Research-Oriented Health Assessment Tool</p>
+    <style>
+        /* Custom Bootstrap Styles */
+        .bootstrap-enhanced {
+            --bs-primary: #0056b3;
+            --bs-secondary: #6c757d;
+            --bs-success: #27ae60;
+            --bs-warning: #f39c12;
+            --bs-danger: #e74c3c;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%) !important;
+            border-color: #16a085 !important;
+            color: white !important;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(22, 160, 133, 0.3) !important;
+        }
+        
+        .btn-secondary {
+            background: white !important;
+            color: #2c3e50 !important;
+            border: 2px solid #e9ecef !important;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa !important;
+            border-color: #dee2e6 !important;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%) !important;
+            border-color: #27ae60 !important;
+            color: white !important;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #229954 0%, #27ae60 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3) !important;
+        }
+        
+        .btn-outline {
+            background: transparent !important;
+            color: #16a085 !important;
+            border: 2px solid #16a085 !important;
+        }
+        
+        .btn-outline:hover {
+            background: #16a085 !important;
+            color: white !important;
+        }
+        
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-close:hover {
+            color: #000;
+        }
+        
+        .modal-header {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-body {
+            padding: 1rem 0;
+        }
+        
+        /* Fix grid */
+        .container-custom .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        
+        .container-custom [class*="col-"] {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body class="bootstrap-enhanced">
+    <div class="container-custom">
+        <!-- University Header -->
+        <div class="university-header">
+            <div class="university-logo-container">
+                <div class="logo-wrapper">
+                    <img src="assets/images.png" 
+                         alt="Universitas Islam Indonesia" 
+                         class="university-logo"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/70x70/0056b3/ffffff?text=UII'">
+                </div>
+                <div class="university-info">
+                    <h3>UNIVERSITAS ISLAM INDONESIA</h3>
+                    <p>Jl. Kaliurang Km. 14,5, Sleman, Yogyakarta 55584</p>
+                    <div class="academic-badge">
+                        <span class="badge-course">Sistem Informasi Manajemen</span>
+                        <span class="badge-instructor">Dosen: Ghiffari Ahnaf Danarwindu, M.Sc.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-badge">
+                <div class="badge-content">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <h4>Academic BMI Calculator</h4>
+                        <p>A Research-Oriented Health Assessment Tool</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-        <!-- Main Header -->
+
+        <!-- Main Header dengan Navigation -->
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-heartbeat"></i> Academic BMI Calculator</h1>
                 <p class="subtitle">A Research-Oriented Health Assessment Tool</p>
             </div>
-            <nav class="navigation">
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-edit"></i> Input Data
-                </a>
-                <a href="result.html" class="nav-link">
-                    <i class="fas fa-chart-line"></i> Results
-                </a>
-                <a href="suggestion.html" class="nav-link active">
-                    <i class="fas fa-apple-alt"></i> Suggestions
-                </a>
+            
+            <!-- Bootstrap Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">
+                                    <i class="fas fa-edit"></i> Input Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="result.html">
+                                    <i class="fas fa-chart-line"></i> Results
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="suggestion.html">
+                                    <i class="fas fa-apple-alt"></i> Suggestions
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
         </header>
 
@@ -314,65 +455,151 @@
                 </div>
             </div>
         </main>
+<!-- Academic Footer Section -->
+<section class="academic-footer-section">
+    <div class="academic-footer-container">
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4><i class="fas fa-graduation-cap"></i> Academic Project</h4>
-                    <p>This tool is developed as part of academic research in Health Informatics and Data Analysis.</p>
-                    <div class="student-info">
-                        <p><strong>Students:</strong> Bagaskara Putera Marendra & M. Arif Al-Ghifary</p>
-                      
-                        <p><strong>Project:</strong> BMI Analysis System for Health Informatics Research</p>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> Course & Research</h4>
-                    <p><strong>Course:</strong> Sistem Informasi Manajemen</p>
-                    <p><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</p>
-                    <p><strong>Research Area:</strong> Health Informatics & Data Analytics</p>
-                    <p><strong>University:</strong> Universitas Islam Indonesia</p>
-                    <p><strong>Semester:</strong> [Current Semester]</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4><i class="fas fa-chart-line"></i> Research Output</h4>
-                    <p>This project contributes to:</p>
-                    <ul class="output-list">
-                        <li>✓ Health informatics education</li>
-                        <li>✓ Data analysis skill development</li>
-                        <li>✓ Research methodology application</li>
-                        <li>✓ Academic tool development</li>
-                        <li>✓ Health awareness promotion</li>
-                    </ul>
-                </div>
+        <!-- Academic Project -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>Academic Project</h4>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
+            <p>
+                This tool is developed as part of academic research in
+                Health Informatics and Data Analysis.
+            </p>
+            <p class="highlight">
+                <strong>Students:</strong><br>
+                Bagaskara Putera Marendra<br>
+                M. Arif Al-Ghifary
+            </p>
+        </div>
+
+        <!-- Course Information -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-book"></i>
+                <h4>Course Information</h4>
+            </div>
+            <ul>
+                <li><strong>Course:</strong> Sistem Informasi Manajemen</li>
+                <li><strong>Instructor:</strong> Ghiffari Ahnaf Danarwindu, M.Sc.</li>
+                <li><strong>Department:</strong> Information Systems</li>
+                <li><strong>University:</strong> Universitas Islam Indonesia</li>
+            </ul>
+        </div>
+
+        <!-- Research Ethics -->
+        <div class="academic-card">
+            <div class="card-title">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Research Ethics</h4>
+            </div>
+            <ul class="ethics-list">
+                <li><i class="fas fa-check"></i> Anonymous data collection</li>
+                <li><i class="fas fa-check"></i> Voluntary participation</li>
+                <li><i class="fas fa-check"></i> Secure data storage</li>
+                <li><i class="fas fa-check"></i> Academic use only</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+        <!-- Footer Vertikal -->
+        <footer class="footer">
+            <div class="footer-vertical">
+                <div class="footer-copyright">
                     <p>© 2025 Academic BMI Calculator - Universitas Islam Indonesia</p>
                     <p class="page-indicator">Page 3 of 3 | Health Guidance Module</p>
                     <p class="research-statement">Academic Research Tool for Educational Purposes</p>
                 </div>
-                <div class="footer-links">
-                    <a href="#" class="footer-link" id="about-link">
-                        <i class="fas fa-info-circle"></i> About Research
-                    </a>
-                    <a href="#" class="footer-link" id="contact-link">
-                        <i class="fas fa-envelope"></i> Contact Researchers
-                    </a>
-                    <a href="#" class="footer-link" id="references-link">
-                        <i class="fas fa-book-open"></i> Full References
-                    </a>
+                
+                <div class="footer-links-vertical">
+                    <div class="footer-link-group">
+                        <a href="#" class="footer-link" id="about-link">
+                            <i class="fas fa-info-circle"></i> About Research
+                        </a>
+                        <a href="#" class="footer-link" id="contact-link">
+                            <i class="fas fa-envelope"></i> Contact Researchers
+                        </a>
+                        <a href="#" class="footer-link" id="references-link">
+                            <i class="fas fa-book-open"></i> Full References
+                        </a>
+                    </div>
                 </div>
             </div>
-            
-            <div class="academic-acknowledgment">
-                <p><i class="fas fa-university"></i> This research is conducted under the academic supervision of the Information Systems Department, Universitas Islam Indonesia. All rights reserved for academic use.</p>
-            </div>
         </footer>
+    </div>
+
+    <!-- Bootstrap Modals -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-shield"></i> Data Privacy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Privacy Policy for Academic BMI Calculator</h6>
+                    <p>This tool is designed for academic research purposes and follows strict data privacy protocols:</p>
+                    <ul>
+                        <li><strong>Anonymous Data Collection:</strong> No personal identifiers are collected</li>
+                        <li><strong>Voluntary Participation:</strong> Users can opt-out of data contribution</li>
+                        <li><strong>Secure Storage:</strong> Data is stored securely with encryption</li>
+                        <li><strong>Academic Use Only:</strong> Data is used exclusively for educational research</li>
+                        <li><strong>Data Retention:</strong> Data is retained for research period only</li>
+                    </ul>
+                    <p><strong>Compliance:</strong> This tool complies with UII Research Ethics Committee guidelines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="methodologyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-flask"></i> Methodology</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Research Methodology</h6>
+                    <p><strong>BMI Calculation Formula:</strong> BMI = weight (kg) / [height (m)]²</p>
+                    <p><strong>Classification Standard:</strong> WHO International Classification (2000)</p>
+                    <p><strong>Data Analysis Methods:</strong></p>
+                    <ul>
+                        <li>Statistical analysis of BMI distribution</li>
+                        <li>Comparative analysis with WHO standards</li>
+                        <li>Health risk assessment based on epidemiological data</li>
+                        <li>Time estimation modeling for weight management</li>
+                    </ul>
+                    <p><strong>Research Tools:</strong> HTML5, CSS3, JavaScript, Bootstrap 5, Google Apps Script</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="referencesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-book-open"></i> References</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Academic References</h6>
+                    <ul>
+                        <li><strong>World Health Organization (WHO).</strong> (2021). Obesity and overweight fact sheet.</li>
+                        <li><strong>National Institutes of Health (NIH).</strong> Clinical Guidelines on Obesity.</li>
+                        <li><strong>Centers for Disease Control and Prevention (CDC).</strong> Body Mass Index Guidelines.</li>
+                        <li><strong>American College of Sports Medicine.</strong> Exercise Guidelines.</li>
+                        <li><strong>Academy of Nutrition and Dietetics.</strong> Evidence Analysis Library.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- References Modal -->
@@ -414,6 +641,377 @@
         </div>
     </div>
 
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="script.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load BMI data
+            const bmiData = JSON.parse(sessionStorage.getItem('bmiData'));
+            const height = localStorage.getItem('bmiHeight');
+            const weight = localStorage.getItem('bmiWeight');
+            const bmi = localStorage.getItem('bmiValue');
+            const category = localStorage.getItem('bmiCategory');
+            
+            if (bmi && category) {
+                // Update summary
+                document.getElementById('summary-category').textContent = category;
+                
+                // Set category subtitle
+                let categorySub = '';
+                if (category === 'Underweight') {
+                    categorySub = 'Below healthy range';
+                    document.getElementById('summary-category').style.color = 'var(--underweight)';
+                } else if (category === 'Normal') {
+                    categorySub = 'Healthy weight';
+                    document.getElementById('summary-category').style.color = 'var(--normal)';
+                } else if (category === 'Overweight') {
+                    categorySub = 'Above healthy range';
+                    document.getElementById('summary-category').style.color = 'var(--overweight)';
+                } else {
+                    categorySub = 'Health risk';
+                    document.getElementById('summary-category').style.color = 'var(--obese)';
+                }
+                document.getElementById('summary-category-sub').textContent = categorySub;
+                
+                // Set recommended action
+                let direction = '';
+                let focus = '';
+                if (category === 'Underweight') {
+                    direction = 'Weight Gain';
+                    focus = 'Healthy calorie surplus';
+                } else if (category === 'Normal') {
+                    direction = 'Weight Maintenance';
+                    focus = 'Lifestyle optimization';
+                } else {
+                    direction = 'Weight Loss';
+                    focus = 'Calorie deficit';
+                }
+                document.getElementById('summary-direction').textContent = direction;
+                document.getElementById('summary-focus').textContent = focus;
+                
+                // Calculate time estimation
+                const heightInMeters = parseFloat(height) / 100;
+                const minWeight = (18.5 * heightInMeters * heightInMeters).toFixed(1);
+                const maxWeight = (24.9 * heightInMeters * heightInMeters).toFixed(1);
+                const currentWeight = parseFloat(weight);
+                
+                let targetWeight = 0;
+                if (category === 'Underweight') {
+                    targetWeight = parseFloat(minWeight);
+                } else if (category === 'Normal') {
+                    targetWeight = parseFloat(weight);
+                } else {
+                    targetWeight = parseFloat(maxWeight);
+                }
+                
+                const weightChange = Math.abs(currentWeight - targetWeight).toFixed(1);
+                const weeksNeeded = Math.ceil(weightChange / 0.5);
+                
+                document.getElementById('summary-time').textContent = `${weeksNeeded} weeks`;
+                
+                // Update dietary recommendations based on BMI category
+                updateDietaryRecommendations(category);
+                updateLifestyleRecommendations(category);
+                
+            } else {
+                // No BMI data found
+                document.getElementById('summary-category').textContent = 'Not Calculated';
+                document.getElementById('summary-category-sub').textContent = 'Please calculate your BMI first';
+            }
+            
+            // Update dietary recommendations
+            function updateDietaryRecommendations(category) {
+                const portionList = document.getElementById('portion-control-list');
+                const frequencyList = document.getElementById('frequency-list');
+                const foodTypesList = document.getElementById('food-types-list');
+                
+                // Clear existing lists
+                portionList.innerHTML = '';
+                frequencyList.innerHTML = '';
+                foodTypesList.innerHTML = '';
+                
+                if (category === 'Underweight') {
+                    // Underweight recommendations
+                    portionList.innerHTML = `
+                        <li>Increase meal frequency to 5-6 smaller meals per day to boost calorie intake</li>
+                        <li>Add healthy calorie-dense foods like nuts, seeds, and avocados to meals</li>
+                        <li>Use larger plates to encourage increased portion sizes gradually</li>
+                        <li>Include protein-rich snacks between main meals for muscle building</li>
+                    `;
+                    
+                    frequencyList.innerHTML = `
+                        <li>Eat every 2-3 hours to maintain consistent calorie intake</li>
+                        <li>Include a balanced breakfast within 1 hour of waking up</li>
+                        <li>Have a protein-rich snack before bedtime for overnight recovery</li>
+                        <li>Space meals evenly throughout the day to optimize nutrient absorption</li>
+                    `;
+                    
+                    foodTypesList.innerHTML = `
+                        <li>High-calorie healthy foods: nuts, seeds, nut butters, avocados</li>
+                        <li>Protein sources: lean meats, fish, eggs, dairy, legumes</li>
+                        <li>Complex carbohydrates: whole grains, sweet potatoes, oats</li>
+                        <li>Healthy fats: olive oil, coconut oil, fatty fish</li>
+                    `;
+                    
+                } else if (category === 'Normal') {
+                    // Normal weight recommendations
+                    portionList.innerHTML = `
+                        <li>Use the plate method: ½ vegetables, ¼ protein, ¼ whole grains</li>
+                        <li>Practice mindful eating - eat slowly and stop when 80% full</li>
+                        <li>Use smaller plates to maintain appropriate portion sizes</li>
+                        <li>Pre-portion snacks to avoid mindless eating</li>
+                    `;
+                    
+                    frequencyList.innerHTML = `
+                        <li>Maintain 3 balanced meals with 1-2 healthy snacks per day</li>
+                        <li>Aim for consistent meal timing to regulate metabolism</li>
+                        <li>Finish eating at least 2-3 hours before bedtime</li>
+                        <li>Include a balanced breakfast to jumpstart metabolism</li>
+                    `;
+                    
+                    foodTypesList.innerHTML = `
+                        <li>Focus on nutrient density: colorful fruits and vegetables</li>
+                        <li>Lean proteins: chicken, fish, tofu, legumes</li>
+                        <li>Whole grains: quinoa, brown rice, whole wheat</li>
+                        <li>Healthy fats: nuts, seeds, olive oil in moderation</li>
+                    `;
+                    
+                } else {
+                    // Overweight/Obese recommendations
+                    portionList.innerHTML = `
+                        <li>Reduce portion sizes by 20-25% from current intake</li>
+                        <li>Use smaller plates and bowls to control serving sizes</li>
+                        <li>Measure servings using measuring cups or food scale initially</li>
+                        <li>Fill half your plate with non-starchy vegetables first</li>
+                    `;
+                    
+                    frequencyList.innerHTML = `
+                        <li>Consider time-restricted eating (e.g., 12-hour eating window)</li>
+                        <li>Focus on 3 balanced meals with minimal snacking</li>
+                        <li>Stop eating 3-4 hours before bedtime</li>
+                        <li>Space meals 4-5 hours apart to allow proper digestion</li>
+                    `;
+                    
+                    foodTypesList.innerHTML = `
+                        <li>High-fiber foods: vegetables, fruits, legumes, whole grains</li>
+                        <li>Lean proteins: fish, chicken breast, turkey, egg whites</li>
+                        <li>Non-starchy vegetables: leafy greens, broccoli, peppers</li>
+                        <li>Low-calorie density foods: soups, salads, fresh fruits</li>
+                    `;
+                }
+            }
+            
+            // Update lifestyle recommendations
+            function updateLifestyleRecommendations(category) {
+                const activityGuidance = document.getElementById('activity-guidance');
+                const activityDetails = document.getElementById('activity-details');
+                const sleepGuidance = document.getElementById('sleep-guidance');
+                const mindfulnessGuidance = document.getElementById('mindfulness-guidance');
+                
+                if (category === 'Underweight') {
+                    activityGuidance.textContent = 'Focus on strength training to build muscle mass, combined with moderate cardio for cardiovascular health. Avoid excessive aerobic exercise that burns too many calories.';
+                    activityDetails.innerHTML = `
+                        <div class="activity-item">
+                            <span class="activity-label">Strength Training:</span>
+                            <span class="activity-value">3-4 times/week</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-label">Cardio:</span>
+                            <span class="activity-value">2-3 times/week (moderate)</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-label">Focus:</span>
+                            <span class="activity-value">Muscle building</span>
+                        </div>
+                    `;
+                    
+                    sleepGuidance.textContent = 'Aim for 7-9 hours of quality sleep nightly for optimal recovery and muscle growth. Maintain consistent sleep schedule to regulate appetite hormones.';
+                    
+                    mindfulnessGuidance.textContent = 'Practice stress-reduction techniques as chronic stress can suppress appetite. Use mindful eating practices to increase food awareness and enjoyment.';
+                    
+                } else if (category === 'Normal') {
+                    activityGuidance.textContent = 'Maintain a balanced exercise routine with both cardiovascular and strength training components for overall health maintenance.';
+                    activityDetails.innerHTML = `
+                        <div class="activity-item">
+                            <span class="activity-label">Cardio:</span>
+                            <span class="activity-value">150 mins/week</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-label">Strength:</span>
+                            <span class="activity-value">2 times/week</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-label">Focus:</span>
+                            <span class="activity-value">Maintenance</span>
+                        </div>
+                    `;
+                    
+                    sleepGuidance.textContent = 'Maintain 7-8 hours of quality sleep consistently. Good sleep supports metabolic health, hormone regulation, and recovery from exercise.';
+                    
+                    mindfulnessGuidance.textContent = 'Practice mindful eating to maintain healthy relationship with food. Use stress management techniques to prevent emotional eating.';
+                    
+                } else {
+                    activityGuidance.textContent = 'Focus on regular cardiovascular exercise for calorie expenditure, combined with strength training to preserve muscle mass during weight loss.';
+                    activityDetails.innerHTML = `
+                        <div class="activity-item">
+                            <span class="activity-label">Cardio:</span>
+                            <span class="activity-value">300 mins/week</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-label">Strength:</span>
+                            <span class="activity-value">3 times/week</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-label">Focus:</span>
+                            <span class="activity-value">Fat loss</span>
+                        </div>
+                    `;
+                    
+                    sleepGuidance.textContent = 'Prioritize 7-9 hours of sleep as sleep deprivation increases hunger hormones and reduces willpower. Poor sleep is linked to weight gain.';
+                    
+                    mindfulnessGuidance.textContent = 'Use cognitive-behavioral techniques to address emotional eating. Practice stress management to reduce cortisol-induced weight gain.';
+                }
+            }
+            
+            // Print button
+            document.getElementById('print-btn').addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Save plan button
+            document.getElementById('save-plan-btn').addEventListener('click', function() {
+                const planData = {
+                    bmi: localStorage.getItem('bmiValue'),
+                    category: localStorage.getItem('bmiCategory'),
+                    height: localStorage.getItem('bmiHeight'),
+                    weight: localStorage.getItem('bmiWeight'),
+                    timestamp: new Date().toLocaleString(),
+                    recommendations: {
+                        dietary: getDietaryText(),
+                        lifestyle: getLifestyleText()
+                    }
+                };
+                
+                const planText = generatePlanText(planData);
+                const blob = new Blob([planText], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `bmi-action-plan-${new Date().getTime()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                alert('Action plan saved as text file!');
+            });
+            
+            function getDietaryText() {
+                const portionItems = Array.from(document.querySelectorAll('#portion-control-list li')).map(li => li.textContent);
+                const frequencyItems = Array.from(document.querySelectorAll('#frequency-list li')).map(li => li.textContent);
+                const foodItems = Array.from(document.querySelectorAll('#food-types-list li')).map(li => li.textContent);
+                
+                return {
+                    portionControl: portionItems,
+                    mealFrequency: frequencyItems,
+                    foodTypes: foodItems
+                };
+            }
+            
+            function getLifestyleText() {
+                return {
+                    activity: document.getElementById('activity-guidance').textContent,
+                    sleep: document.getElementById('sleep-guidance').textContent,
+                    mindfulness: document.getElementById('mindfulness-guidance').textContent
+                };
+            }
+            
+            function generatePlanText(data) {
+                return `ACADEMIC BMI ACTION PLAN
+============================
+
+Personal Information:
+- BMI: ${data.bmi} kg/m²
+- Category: ${data.category}
+- Height: ${data.height} cm
+- Weight: ${data.weight} kg
+- Date: ${data.timestamp}
+
+DIETARY RECOMMENDATIONS:
+=======================
+Portion Control:
+${data.recommendations.dietary.portionControl.map(item => `• ${item}`).join('\n')}
+
+Meal Timing & Frequency:
+${data.recommendations.dietary.mealFrequency.map(item => `• ${item}`).join('\n')}
+
+Food Selection:
+${data.recommendations.dietary.foodTypes.map(item => `• ${item}`).join('\n')}
+
+LIFESTYLE RECOMMENDATIONS:
+=========================
+Physical Activity:
+${data.recommendations.lifestyle.activity}
+
+Sleep Hygiene:
+${data.recommendations.lifestyle.sleep}
+
+Mindfulness & Behavior:
+${data.recommendations.lifestyle.mindfulness}
+
+ACADEMIC CONTEXT:
+===============
+This plan is based on evidence-based guidelines from:
+- World Health Organization (WHO)
+- Centers for Disease Control (CDC)
+- National Institutes of Health (NIH)
+- Academic nutritional research
+
+NOTE: This is educational material, not medical advice.
+Consult healthcare professionals for personalized guidance.
+
+© 2025 Academic BMI Calculator - Universitas Islam Indonesia`;
+            }
+            
+            // About link
+            document.getElementById('about-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                const modal = new bootstrap.Modal(document.getElementById('methodologyModal'));
+                modal.show();
+            });
+            
+            // Contact link
+            document.getElementById('contact-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('For research inquiries, please contact:\n\nEmail: students@uii.ac.id\nUniversity: Universitas Islam Indonesia\nDepartment: Information Systems');
+            });
+            
+            // References link
+            document.getElementById('references-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('references-modal').style.display = 'flex';
+            });
+            
+            // Close modal
+            document.querySelectorAll('.modal-close').forEach(function(closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+            
+            console.log('✅ Suggestion page JavaScript loaded');
+        });
+    </script>
 </body>
 </html>
